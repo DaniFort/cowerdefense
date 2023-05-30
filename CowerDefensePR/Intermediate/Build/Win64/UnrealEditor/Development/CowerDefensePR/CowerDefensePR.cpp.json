@@ -1,0 +1,14 @@
+{
+    "Version": "1.1",
+    "Data": {
+        "Source": "d:\\documentos\\thecoreschool\\pi3\\project\\cowerdefense\\cowerdefensepr\\source\\cowerdefensepr\\cowerdefensepr.cpp",
+        "ProvidedModule": "",
+        "PCH": "d:\\documentos\\thecoreschool\\pi3\\project\\cowerdefense\\cowerdefensepr\\intermediate\\build\\win64\\cowerdefensepreditor\\development\\engine\\sharedpch.engine.shadowerrors.h.pch",
+        "Includes": [
+            "d:\\documentos\\thecoreschool\\pi3\\project\\cowerdefense\\cowerdefensepr\\intermediate\\build\\win64\\unrealeditor\\development\\cowerdefensepr\\definitions.cowerdefensepr.h",
+            "d:\\documentos\\thecoreschool\\pi3\\project\\cowerdefense\\cowerdefensepr\\source\\cowerdefensepr\\cowerdefensepr.h"
+        ],
+        "ImportedModules": [],
+        "ImportedHeaderUnits": []
+    }
+}

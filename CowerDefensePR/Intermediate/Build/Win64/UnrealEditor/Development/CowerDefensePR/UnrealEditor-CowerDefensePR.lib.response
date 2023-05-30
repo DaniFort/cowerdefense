@@ -1,0 +1,15 @@
+/NOLOGO
+/errorReport:prompt
+/MACHINE:x64
+/SUBSYSTEM:WINDOWS
+/DEF
+/NAME:"UnrealEditor-CowerDefensePR.dll"
+/IGNORE:4221
+/NODEFAULTLIB
+"D:\Documentos\TheCoreSchool\PI3\Project\cowerdefense\CowerDefensePR\Intermediate\Build\Win64\CowerDefensePREditor\Development\Engine\SharedPCH.Engine.ShadowErrors.h.obj"
+"D:\Documentos\TheCoreSchool\PI3\Project\cowerdefense\CowerDefensePR\Intermediate\Build\Win64\UnrealEditor\Development\CowerDefensePR\CowerDefensePR.cpp.obj"
+"D:\Documentos\TheCoreSchool\PI3\Project\cowerdefense\CowerDefensePR\Intermediate\Build\Win64\UnrealEditor\Development\CowerDefensePR\CowerDefensePRGameModeBase.cpp.obj"
+"D:\Documentos\TheCoreSchool\PI3\Project\cowerdefense\CowerDefensePR\Intermediate\Build\Win64\UnrealEditor\Development\CowerDefensePR\CowerDefensePR.init.gen.cpp.obj"
+"D:\Documentos\TheCoreSchool\PI3\Project\cowerdefense\CowerDefensePR\Intermediate\Build\Win64\UnrealEditor\Development\CowerDefensePR\CowerDefensePRGameModeBase.gen.cpp.obj"
+"D:\Documentos\TheCoreSchool\PI3\Project\cowerdefense\CowerDefensePR\Intermediate\Build\Win64\UnrealEditor\Development\CowerDefensePR\Default.rc2.res"
+/OUT:"D:\Documentos\TheCoreSchool\PI3\Project\cowerdefense\CowerDefensePR\Intermediate\Build\Win64\UnrealEditor\Development\CowerDefensePR\UnrealEditor-CowerDefensePR.lib"
