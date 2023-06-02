@@ -44,6 +44,7 @@ void APoolerObjects::BeginPlay()
 
 
             group.objectsToPool.Add(newActor);
+            DespawnActor(newActor);
 
         }
     }
