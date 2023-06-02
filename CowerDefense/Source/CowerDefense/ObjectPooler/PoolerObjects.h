@@ -36,11 +36,7 @@ public:
 	void SpawnActor(UClass*actor,FVector Position, FRotator Rotation);
 	UFUNCTION()
 	void DespawnActor(AActor* actor);
-	UPROPERTY(EditAnywhere)
-	AActor* actorDePruebas{nullptr};
 
-	UFUNCTION(CallInEditor)
-	void ProbandoProbando() { DespawnActor(actorDePruebas); }
 
 
 

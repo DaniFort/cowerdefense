@@ -24,6 +24,7 @@ class COWERDEFENSE_API IPooledObject
 public:
 	UFUNCTION(Category = Pool)
 	virtual void Spawn() = 0;
+
 	UFUNCTION(Category = Pool)
 	virtual void Despawn()= 0;
 };
