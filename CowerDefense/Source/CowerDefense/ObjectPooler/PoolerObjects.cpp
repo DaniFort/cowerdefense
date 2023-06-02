@@ -23,9 +23,9 @@ void APoolerObjects::BeginPlay()
     FActorSpawnParameters SpawnInfo;
     FRotator myRot(0, 0, 0);
 
-    for (FGroupOfObjectsStruct& group : objects)//igual hay que quitar el const
+    for (FGroupOfObjectsStruct& group : objects)
     {
-        group.objectsToPool.Reserve(100);
+        //group.objectsToPool.Reserve(100);
         UClass* currentClass = group.classType;
         for (int32 i = 0; i < group.amount; i++)
         {
@@ -44,18 +44,74 @@ void APoolerObjects::BeginPlay()
 
 
             group.objectsToPool.Add(newActor);
+
         }
     }
+    
 }
 
 
 
-void APoolerObjects::SpawnActor(AActor* actorType)
+void APoolerObjects::SpawnActor(UClass* actorType, FVector Position, FRotator Rotation)
 {
+    for (FGroupOfObjectsStruct& group : objects)
+    {
+        UClass* groupClass = group.classType;
+        //UClass* actorClass = actorType->GetClass();
+
+        if (groupClass == actorType)
+        {
+            for (AActor* actor : group.objectsToPool)
+            {
+                if (!actor->IsHidden())
+                {
+                    actor->SetActorLocation(Position);
+                    actor->SetActorRotation(Rotation);
+                    Cast<IPooledObject>(actor)->Spawn();
+                    return;
+                }
+            }
+            //si no hubiese disponible creamos otro
+            AActor* newActor = nullptr;
+
+            if (!groupClass->IsChildOf(ACharacter::StaticClass()))
+            {
+                newActor = GetWorld()->SpawnActor<AActor>(groupClass);
+            }
+            else
+            {
+                FActorSpawnParameters SpawnParams;
+                SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+                newActor = GetWorld()->SpawnActor<AActor>(groupClass, SpawnParams);
+            }
+
+            newActor->SetActorLocation(Position);
+            newActor->SetActorRotation(Rotation);
+            group.objectsToPool.Add(newActor);
+
+        }
+    }
+
 
 }
 
 void APoolerObjects::DespawnActor(AActor* actorType)
 {
+    if (IPooledObject* actorInterface = Cast<IPooledObject>(actorType))
+    {
+        actorInterface->Despawn();
+    }
 
+    /*UClass* actorClass = actorType->GetClass();
+
+    for (FGroupOfObjectsStruct& group : objects)
+    {
+        UClass* groupClass = group.classType;
+
+        if (groupClass == actorClass)
+        {
+            Cast<IPooledObject>(actorType)->Despawn();
+            return;
+        }
+    }*/
 }

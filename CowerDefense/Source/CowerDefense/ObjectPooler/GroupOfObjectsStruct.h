@@ -6,6 +6,7 @@
 #include "PooledObject.h"
 
 
+
 #include"GroupOfObjectsStruct.generated.h"
 
 /**
@@ -23,8 +24,10 @@ public:
 
 	UPROPERTY(EditAnywhere)
 	TArray<AActor*> objectsToPool;
+
+
 	UPROPERTY(EditAnywhere)
-	TSubclassOf<AActor> classType;
+		TSubclassOf<AActor> classType;
 	//UPROPERTY(EditAnywhere)
 	//UClass* classType;
 	//UPROPERTY(EditAnywhere)

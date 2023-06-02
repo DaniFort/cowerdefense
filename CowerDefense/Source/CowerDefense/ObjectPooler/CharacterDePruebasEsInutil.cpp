@@ -32,3 +32,14 @@ void ACharacterDePruebasEsInutil::SetupPlayerInputComponent(UInputComponent* Pla
 
 }
 
+void ACharacterDePruebasEsInutil::Spawn()
+{
+	SetActorHiddenInGame(false);
+	SetActorEnableCollision(false);
+}
+void ACharacterDePruebasEsInutil::Despawn()
+{
+	SetActorHiddenInGame(true);
+	SetActorEnableCollision(true);
+}
+
