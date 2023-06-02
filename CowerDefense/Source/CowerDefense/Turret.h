@@ -8,6 +8,7 @@
 
 class UStaticMeshComponent;
 class UBoxComponent;
+class USceneComponent;
 class USphereComponent;
 
 UENUM(NotBlueprintType)
@@ -39,14 +40,22 @@ public:
 	UPROPERTY(EditDefaultsOnly)
 		UStaticMeshComponent* staticMeshTurret = nullptr;
 	UPROPERTY(EditDefaultsOnly)
+	UStaticMeshComponent* staticMeshBase = nullptr;
+	UPROPERTY(EditDefaultsOnly)
+	UStaticMeshComponent* staticMeshStick = nullptr;
+	UPROPERTY(EditDefaultsOnly)
 		UBoxComponent* boxCollider = nullptr;
 	UPROPERTY(EditDefaultsOnly)
-		USphereComponent* sphereCollider = nullptr;
+	USphereComponent* sphereCollider = nullptr;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		ElementType Element;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		TargetType Target;
-
+	
+#if WITH_EDITOR
+	virtual void PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent) override;
+#endif
+	
 private:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -61,6 +70,11 @@ private:
 		int sellPrice;
 	UPROPERTY(EditDefaultsOnly, meta = (AllowPrivateAccess))
 		float range;
+	UPROPERTY(EditDefaultsOnly, meta = (AllowPrivateAccess))
+		USceneComponent* pivotStaticMesh;
+	UPROPERTY(EditAnywhere, meta = (AllowPrivateAccess), BlueprintReadWrite)
+		TArray<USceneComponent*> shootPoints;
+
 
 public:	
 	// Called every frame
