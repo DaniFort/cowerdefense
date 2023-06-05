@@ -33,7 +33,7 @@ public:
 	//functions
 public:
 	UFUNCTION()
-	void SpawnActor(UClass*actor,FVector Position, FRotator Rotation);
+	AActor* SpawnActor(UClass*actor,FVector Position, FRotator Rotation);
 	UFUNCTION()
 	void DespawnActor(AActor* actor);
 

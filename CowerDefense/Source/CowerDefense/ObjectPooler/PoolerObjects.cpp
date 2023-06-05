@@ -53,7 +53,7 @@ void APoolerObjects::BeginPlay()
 
 
 
-void APoolerObjects::SpawnActor(UClass* actorType, FVector Position, FRotator Rotation)
+AActor* APoolerObjects::SpawnActor(UClass* actorType, FVector Position, FRotator Rotation)
 {
     for (FGroupOfObjectsStruct& group : objects)
     {
@@ -69,7 +69,7 @@ void APoolerObjects::SpawnActor(UClass* actorType, FVector Position, FRotator Ro
                     actor->SetActorLocation(Position);
                     actor->SetActorRotation(Rotation);
                     Cast<IPooledObject>(actor)->Spawn();
-                    return;
+                    return actor;
                 }
             }
             //si no hubiese disponible creamos otro
@@ -89,11 +89,11 @@ void APoolerObjects::SpawnActor(UClass* actorType, FVector Position, FRotator Ro
             newActor->SetActorLocation(Position);
             newActor->SetActorRotation(Rotation);
             group.objectsToPool.Add(newActor);
+            return newActor;
 
         }
     }
-
-
+    return NULL;
 }
 
 void APoolerObjects::DespawnActor(AActor* actorType)
