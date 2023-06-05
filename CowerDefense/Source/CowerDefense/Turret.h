@@ -52,9 +52,6 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		TargetType Target;
 	
-#if WITH_EDITOR
-	virtual void PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent) override;
-#endif
 	
 private:
 	// Called when the game starts or when spawned
@@ -72,9 +69,24 @@ private:
 		float range;
 	UPROPERTY(EditDefaultsOnly, meta = (AllowPrivateAccess))
 		USceneComponent* pivotStaticMesh;
-	UPROPERTY(EditAnywhere, meta = (AllowPrivateAccess), BlueprintReadWrite)
+	UPROPERTY(VisibleAnywhere, meta = (AllowPrivateAccess), BlueprintReadWrite)
 		TArray<USceneComponent*> shootPoints;
 
+	UPROPERTY(VisibleAnywhere)
+	TArray<APawn*> enemiesDetected;
+	
+	UFUNCTION()
+	void OnOverlapBegin(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor,
+		class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+UFUNCTION()
+	void OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
+
+	UFUNCTION()
+	void RotateTowardsEnemy(FVector whereToLook);
+	
+#if WITH_EDITOR
+	virtual void PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent) override;
+#endif
 
 public:	
 	// Called every frame

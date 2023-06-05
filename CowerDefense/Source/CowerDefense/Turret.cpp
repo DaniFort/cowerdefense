@@ -3,11 +3,11 @@
 
 #include "Turret.h"
 
-#include "CollisionDebugDrawingPublic.h"
 #include "Components/BoxComponent.h"
 #include "Components/SceneComponent.h"
 #include "Components/SphereComponent.h"
-#include "GameMenuBuilder/Public/GameMenuItem.h"
+
+#include "Kismet/KismetMathLibrary.h"
 
 // Sets default values
 ATurret::ATurret()
@@ -17,7 +17,7 @@ ATurret::ATurret()
 
 	USceneComponent* rootCmp = CreateDefaultSubobject<USceneComponent>(TEXT("Root Component"));
 	SetRootComponent(rootCmp);
-
+	
 	pivotStaticMesh = CreateDefaultSubobject<USceneComponent>(TEXT("pivot Static Mesh"));
 	pivotStaticMesh->SetupAttachment(rootCmp);
 	pivotStaticMesh->SetRelativeLocation(FVector (0.f,10.f,340.f));
@@ -27,10 +27,20 @@ ATurret::ATurret()
 	staticMeshTurret->SetRelativeLocation(FVector (0.f,100.f,0.f));
 	staticMeshTurret->SetRelativeScale3D(FVector (13.f,13.f,13.f));
 
+enemiesDetected.Reserve(5);
 
-	shootPoints.Init(nullptr,4);
-
-	//shootPoints[0] = point;
+	USceneComponent* shootPoint0 = CreateDefaultSubobject<USceneComponent>(TEXT("Shoot Point 0"));
+	shootPoint0->SetupAttachment(pivotStaticMesh);
+	USceneComponent* shootPoint1 = CreateDefaultSubobject<USceneComponent>(TEXT("Shoot Point 1"));
+	shootPoint1->SetupAttachment(pivotStaticMesh);
+	USceneComponent* shootPoint2 = CreateDefaultSubobject<USceneComponent>(TEXT("Shoot Point 2"));
+	shootPoint2->SetupAttachment(pivotStaticMesh);
+	USceneComponent* shootPoint3 = CreateDefaultSubobject<USceneComponent>(TEXT("Shoot Point 3"));
+	shootPoint3->SetupAttachment(pivotStaticMesh);
+	shootPoints.Add(shootPoint0);
+	shootPoints.Add(shootPoint1);
+	shootPoints.Add(shootPoint2);
+	shootPoints.Add(shootPoint3);
 	
 	staticMeshBase = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("static Mesh Base"));
 	staticMeshBase->SetupAttachment(rootCmp);
@@ -50,14 +60,11 @@ ATurret::ATurret()
 	sphereCollider = CreateDefaultSubobject<USphereComponent>(TEXT("sphere Collider"));
 	sphereCollider->SetupAttachment(rootCmp);
 	sphereCollider->SetSphereRadius(range);
-
-
 }
 
 #if WITH_EDITOR
 void ATurret::PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent)
 {
-
 	if (PropertyChangedEvent.GetPropertyName().ToString() == FString("range"))
 	{
 		UE_LOG(LogTemp, Warning, TEXT("%s"), *PropertyChangedEvent.GetPropertyName().ToString());
@@ -80,13 +87,45 @@ void ATurret::PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent
 void ATurret::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
+	sphereCollider->OnComponentBeginOverlap.AddDynamic(this, &ATurret::OnOverlapBegin);
+	sphereCollider->OnComponentEndOverlap.AddDynamic(this, &ATurret::OnOverlapEnd);
 }
 
 // Called every frame
 void ATurret::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+	if (!enemiesDetected.IsEmpty() && enemiesDetected[0] != nullptr)
+	{
+		RotateTowardsEnemy(enemiesDetected[0]->GetActorLocation());
+	}
 
+}
+
+void ATurret::RotateTowardsEnemy(FVector whereToLook)
+{
+	FRotator rotLookAt = UKismetMathLibrary::FindLookAtRotation(this->GetActorLocation(), enemiesDetected[0]->GetActorLocation());
+
+	pivotStaticMesh->SetWorldRotation(rotLookAt);
+}
+
+
+void ATurret::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+	if (APawn* enemyBeginHit = Cast<APawn>(OtherActor))
+	{
+		enemiesDetected.Add(enemyBeginHit);
+		UE_LOG(LogTemp, Warning, TEXT("HOLA OK"));
+	}
+}
+
+void ATurret::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
+{
+	if (APawn* enemyEndHit = Cast<APawn>(OtherActor))
+	{
+		enemiesDetected.Remove(enemyEndHit);
+		UE_LOG(LogTemp, Warning, TEXT("ADIOS OK"));
+	}
 }
 
