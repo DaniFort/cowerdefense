@@ -4,12 +4,14 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
-#include "Components/SplineComponent.h"
 #include "Math/UnrealMathUtility.h"
 #include "BaseEnemy.generated.h"
 
+
 class UStaticMeshComponent;
+class ASplainMeshActor;
 class UBoxComponent;
+class USplineComponent;
 
 UENUM(NotBlueprintType)
 enum class ElementType : uint8 {
@@ -25,7 +27,7 @@ class COWERDEFENSE_API ABaseEnemy : public APawn
 	GENERATED_BODY()
 
 public:
-	UPROPERTY(EditDefaultsOnly, meta = (AllowPrivateAccess))
+	UPROPERTY(EditDefaultsOnly)
 		float health;
 	// Sets default values for this pawn's properties
 	ABaseEnemy();
@@ -40,12 +42,14 @@ public:
 protected:
 	UPROPERTY()
 		USplineComponent* splinePath;
-	UPROPERTY()
+	UPROPERTY(EditDefaultsOnly)
 		float moveSpeed;
 	UPROPERTY()
 		float timeProgression;
 	UPROPERTY()
 		float timeToFinish;
+	UPROPERTY()
+		bool isAlive;
 
 	virtual void BeginPlay() override;
 	void follow_path();
