@@ -8,7 +8,7 @@
 #include "BaseEnemy.generated.h"
 
 
-class UStaticMeshComponent;
+class USkeletalMeshComponent;
 class ASplainMeshActor;
 class UBoxComponent;
 class USplineComponent;
@@ -33,7 +33,7 @@ public:
 	ABaseEnemy();
 
 	UPROPERTY(EditDefaultsOnly)
-		UStaticMeshComponent* staticMeshEnemy = nullptr;
+		USkeletalMeshComponent* skeletalMeshEnemy = nullptr;
 	UPROPERTY(EditDefaultsOnly)
 		UBoxComponent* boxCollider = nullptr;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)

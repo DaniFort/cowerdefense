@@ -12,8 +12,8 @@ ABaseEnemy::ABaseEnemy()
 	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 	isAlive = true;
-	staticMeshEnemy = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("static mesh enemy"));
-	staticMeshEnemy->SetupAttachment(RootComponent);
+	skeletalMeshEnemy = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("static mesh enemy"));
+	skeletalMeshEnemy->SetupAttachment(RootComponent);
 }
 
 void ABaseEnemy::BeginPlay()
