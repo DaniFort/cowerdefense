@@ -40,9 +40,9 @@ public:
 	UPROPERTY(EditDefaultsOnly)
 		UStaticMeshComponent* staticMeshTurret = nullptr;
 	UPROPERTY(EditDefaultsOnly)
-	UStaticMeshComponent* staticMeshBase = nullptr;
+		UStaticMeshComponent* staticMeshBase = nullptr;
 	UPROPERTY(EditDefaultsOnly)
-	UStaticMeshComponent* staticMeshStick = nullptr;
+		UStaticMeshComponent* staticMeshStick = nullptr;
 	UPROPERTY(EditDefaultsOnly)
 		UBoxComponent* boxCollider = nullptr;
 	UPROPERTY(EditDefaultsOnly)
@@ -69,6 +69,7 @@ private:
 		float range;
 	UPROPERTY(EditDefaultsOnly, meta = (AllowPrivateAccess))
 		USceneComponent* pivotStaticMesh;
+	
 	UPROPERTY(VisibleAnywhere, meta = (AllowPrivateAccess), BlueprintReadWrite)
 		TArray<USceneComponent*> shootPoints;
 
@@ -78,8 +79,8 @@ private:
 	UFUNCTION()
 	void OnOverlapBegin(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor,
 		class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
-UFUNCTION()
-	void OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
+	UFUNCTION()
+		void OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
 
 	UFUNCTION()
 	void RotateTowardsEnemy(FVector whereToLook);

@@ -103,6 +103,7 @@ void ATurret::Tick(float DeltaTime)
 
 }
 
+
 void ATurret::RotateTowardsEnemy(FVector whereToLook)
 {
 	FRotator rotLookAt = UKismetMathLibrary::FindLookAtRotation(this->GetActorLocation(), enemiesDetected[0]->GetActorLocation());
