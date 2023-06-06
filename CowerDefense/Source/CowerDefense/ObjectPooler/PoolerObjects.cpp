@@ -2,6 +2,7 @@
 
 
 #include "PoolerObjects.h"
+#include "CowerDefense/GameModes/GameModeLevel1.h"
 
 #include "GameFrameWork/Character.h"
 
@@ -12,6 +13,16 @@ APoolerObjects::APoolerObjects()
 	PrimaryActorTick.bCanEverTick = false;
 
 
+}
+
+void APoolerObjects::PreInitializeComponents()
+{
+    Super::PreInitializeComponents();
+
+    if (AGameModeLevel1* gameMode = Cast<AGameModeLevel1>(GetWorld()->GetAuthGameMode()))
+    {
+        gameMode->SetSpawnPool(this);
+    }
 }
 
 // Called when the game starts or when spawned
