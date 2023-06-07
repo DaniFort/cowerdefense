@@ -5,7 +5,7 @@
 
 #include "SelectWidget.h"
 #include "Camera/CameraComponent.h"
-#include "Components/BoxComponent.h"
+#include "Components/SphereComponent.h"
 
 // Sets default values
 APlayerCamera::APlayerCamera()
@@ -16,10 +16,8 @@ APlayerCamera::APlayerCamera()
 	firstPersonCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("First Person Camera"));
 	firstPersonCamera->SetupAttachment(RootComponent);
 
-	playerCollider = CreateDefaultSubobject<UBoxComponent>(TEXT("Box Collider"));
+	playerCollider = CreateDefaultSubobject<USphereComponent>(TEXT("Sphere Collider"));
 	playerCollider->SetupAttachment(RootComponent);
-
-	//selectWidget->CreateDefaultSubobject<USelectWidget>(TEXT("Select Widget"));
 }
 
 // Called when the game starts or when spawned
@@ -27,7 +25,8 @@ void APlayerCamera::BeginPlay()
 {
 	Super::BeginPlay();
 
-	selectWidget->AddToViewport(0);
+	selectWidgetInstance = CreateWidget<USelectWidget>(GetWorld(), selectWidget);
+	selectWidgetInstance->AddToViewport();
 }
 
 // Called every frame

@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
+#include "Turret.h"
 #include "SelectWidget.generated.h"
 
 class UButton;
@@ -18,6 +19,7 @@ public:
 	UButton* normalTurretButton = nullptr;
 
 	virtual void NativeConstruct() override;
-
-	void OnButtonClick();
+	
+UFUNCTION()
+	void OnButtonClickNormal();
 };

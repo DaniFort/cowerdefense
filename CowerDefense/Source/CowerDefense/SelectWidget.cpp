@@ -7,10 +7,10 @@
 
 void USelectWidget::NativeConstruct()
 {
-	normalTurretButton->OnClicked.AddDynamic(this, &USelectWidget::OnButtonClick);
+	normalTurretButton->OnClicked.AddDynamic(this, &USelectWidget::OnButtonClickNormal);
 }
 
-void USelectWidget::OnButtonClick()
+void USelectWidget::OnButtonClickNormal()
 {
 	UE_LOG(LogTemp, Log, TEXT("BOTON"));
 }

@@ -7,7 +7,7 @@
 #include "PlayerCamera.generated.h"
 
 class UCameraComponent;
-class UBoxComponent;
+class USphereComponent;
 class USelectWidget;
 
 UCLASS()
@@ -22,9 +22,10 @@ public:
 	UPROPERTY(EditDefaultsOnly)
 	UCameraComponent* firstPersonCamera = nullptr;
 	UPROPERTY(EditDefaultsOnly)
-	UBoxComponent* playerCollider = nullptr;
-	UPROPERTY(EditDefaultsOnly)
-	USelectWidget* selectWidget = nullptr;
+	USphereComponent* playerCollider = nullptr;
+	
+	UPROPERTY(EditAnywhere) TSubclassOf<USelectWidget> selectWidget;
+	UPROPERTY() USelectWidget* selectWidgetInstance = nullptr;
 
 protected:
 	// Called when the game starts or when spawned
