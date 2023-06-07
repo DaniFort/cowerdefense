@@ -27,7 +27,11 @@ void AWaveManager::BeginPlay()
 	}
 	
 	SetActorTickEnabled(false);
-	elapsedTime = waveOrder[currentWave].enemyOrder[waveOrder[currentWave].currentEnemy].Y;
+
+	if (waveOrder.Num()>0 )
+	{
+		elapsedTime = waveOrder[currentWave].enemyOrder[waveOrder[currentWave].currentEnemy].Y;
+	}
 
 }
 
@@ -49,6 +53,9 @@ void AWaveManager::Tick(float DeltaTime)
 
 void AWaveManager::SpawnEnemy()
 {
+	if (waveOrder.Num() == 0)
+		return;
+
 	FBaseWave* runingWave = &waveOrder[currentWave];
 
 	int idEnemyType = runingWave->enemyOrder[runingWave->currentEnemy].X; // buscar tipo de enemigo

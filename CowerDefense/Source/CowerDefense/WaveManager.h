@@ -76,6 +76,7 @@ private:
 	void NextWave();
 
 public:
+	UFUNCTION(CallInEditor)
 	void StartWave();
 
 };
