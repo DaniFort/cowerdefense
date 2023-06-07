@@ -18,6 +18,9 @@ ABaseEnemy::ABaseEnemy()
 
 	skeletalMeshEnemy = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("static mesh enemy"));
 	skeletalMeshEnemy->SetupAttachment(root);
+
+	boxCollider = CreateDefaultSubobject<UBoxComponent>(TEXT("Box Collider"));
+	boxCollider->SetupAttachment(root);
 	//skeletalMeshEnemy->SetRelativeRotation()
 }
 

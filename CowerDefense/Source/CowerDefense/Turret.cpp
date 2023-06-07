@@ -6,6 +6,7 @@
 #include "Components/BoxComponent.h"
 #include "Components/SceneComponent.h"
 #include "Components/SphereComponent.h"
+#include "Enemies/BaseEnemy.h"
 
 #include "Kismet/KismetMathLibrary.h"
 
@@ -27,7 +28,7 @@ ATurret::ATurret()
 	staticMeshTurret->SetRelativeLocation(FVector (0.f,100.f,0.f));
 	staticMeshTurret->SetRelativeScale3D(FVector (13.f,13.f,13.f));
 
-enemiesDetected.Reserve(5);
+	enemiesDetected.Reserve(5);
 
 	USceneComponent* shootPoint0 = CreateDefaultSubobject<USceneComponent>(TEXT("Shoot Point 0"));
 	shootPoint0->SetupAttachment(pivotStaticMesh);
@@ -114,7 +115,7 @@ void ATurret::RotateTowardsEnemy(FVector whereToLook)
 
 void ATurret::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	if (APawn* enemyBeginHit = Cast<APawn>(OtherActor))
+	if (ABaseEnemy* enemyBeginHit = Cast<ABaseEnemy>(OtherActor))
 	{
 		enemiesDetected.Add(enemyBeginHit);
 		UE_LOG(LogTemp, Warning, TEXT("HOLA OK"));
@@ -123,7 +124,7 @@ void ATurret::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherA
 
 void ATurret::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
-	if (APawn* enemyEndHit = Cast<APawn>(OtherActor))
+	if (ABaseEnemy* enemyEndHit = Cast<ABaseEnemy>(OtherActor))
 	{
 		enemiesDetected.Remove(enemyEndHit);
 		UE_LOG(LogTemp, Warning, TEXT("ADIOS OK"));

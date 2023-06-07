@@ -10,9 +10,10 @@ class UStaticMeshComponent;
 class UBoxComponent;
 class USceneComponent;
 class USphereComponent;
+class ABaseEnemy;
 
 UENUM(NotBlueprintType)
-enum class ElementType : uint8 {
+enum class ElementTypes : uint8 {
 	None = 0		UMETA(DisplayName = "None"),
 	Fire = 1        UMETA(DisplayName = "Fire"),
 	Water = 2       UMETA(DisplayName = "Water"),
@@ -48,7 +49,7 @@ public:
 	UPROPERTY(EditDefaultsOnly)
 	USphereComponent* sphereCollider = nullptr;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		ElementType Element;
+		ElementTypes Element;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		TargetType Target;
 	
@@ -74,7 +75,7 @@ private:
 		TArray<USceneComponent*> shootPoints;
 
 	UPROPERTY(VisibleAnywhere)
-	TArray<APawn*> enemiesDetected;
+	TArray<ABaseEnemy*> enemiesDetected;
 	
 	UFUNCTION()
 	void OnOverlapBegin(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor,
