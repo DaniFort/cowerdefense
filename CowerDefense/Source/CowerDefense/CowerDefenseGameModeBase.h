@@ -6,9 +6,7 @@
 #include "GameFramework/GameModeBase.h"
 #include "CowerDefenseGameModeBase.generated.h"
 
-/**
- * 
- */
+
 UCLASS()
 class COWERDEFENSE_API ACowerDefenseGameModeBase : public AGameModeBase
 {
