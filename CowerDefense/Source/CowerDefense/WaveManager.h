@@ -48,8 +48,10 @@ public:
 	UPROPERTY(EditAnywhere)
 	APoolerObjects* pool{nullptr};
 
-	UPROPERTY(EditAnywhere)
 	USplineComponent* splinePath{nullptr};
+	UPROPERTY(EditAnywhere)
+		AActor* splineParent{nullptr};
+
 
 	//referencia al spline
 	UPROPERTY(EditInstanceOnly)

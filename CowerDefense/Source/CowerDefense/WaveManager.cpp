@@ -4,7 +4,7 @@
 #include "WaveManager.h"
 #include "CowerDefense/GameModes/GameModeLevel1.h"
 #include "Components/SplineComponent.h"
-
+#include "CowerDefense/Enemies/BaseEnemy.h"
 
 #include "CowerDefense/ObjectPooler/PoolerObjects.h"
 
@@ -32,6 +32,13 @@ void AWaveManager::BeginPlay()
 	{
 		elapsedTime = waveOrder[currentWave].enemyOrder[waveOrder[currentWave].currentEnemy].Y;
 	}
+	//splinePath = splineParent->FindComponentByClass<USplineComponent>();
+
+	if (USplineComponent* spline = splineParent->FindComponentByClass<USplineComponent>())
+	{
+		splinePath = spline;
+	}
+
 
 }
 
@@ -41,9 +48,6 @@ void AWaveManager::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 	elapsedTime -= GetWorld()->GetDeltaSeconds();
-
-	FString FloatAsString = FString::SanitizeFloat(elapsedTime);
-	//GEngine->AddOnScreenDebugMessage(5, 1, FColor::Red, FloatAsString);
 
 	if (elapsedTime <= 0)
 	{
@@ -60,13 +64,13 @@ void AWaveManager::SpawnEnemy()
 
 	int idEnemyType = runingWave->enemyOrder[runingWave->currentEnemy].X; // buscar tipo de enemigo
 
-	//UClass* clasToSpawn = enemyTypes[idEnemyType];//coger la clase de ese
-	//
-	//AActor* newEnemy = pool->SpawnActor(clasToSpawn, initPosition, initRotation);
-	//if (ClaseEnemigo* enemyPath = Cast<ClaseEnemigo>(newEnemy))
-	//{
-	//	enemyPath->splinePath = splinePath;
-	//}
+	UClass* clasToSpawn = enemyTypes[idEnemyType];//coger la clase de ese
+	
+	AActor* newEnemy = pool->SpawnActor(clasToSpawn, initPosition, initRotation);
+	if (ABaseEnemy* enemyPath = Cast<ABaseEnemy>(newEnemy))
+	{
+		enemyPath->SetSplinePath(splinePath);
+	}
 
 	elapsedTime = runingWave->enemyOrder[runingWave->currentEnemy].Y;
 

@@ -5,6 +5,8 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
 #include "Math/UnrealMathUtility.h"
+#include "CowerDefense/ObjectPooler/PooledObject.h"
+
 #include "BaseEnemy.generated.h"
 
 
@@ -22,7 +24,7 @@ enum class ElementType : uint8 {
 };
 
 UCLASS()
-class COWERDEFENSE_API ABaseEnemy : public APawn
+class COWERDEFENSE_API ABaseEnemy : public APawn , public IPooledObject
 {
 	GENERATED_BODY()
 
@@ -35,12 +37,15 @@ public:
 	UPROPERTY(EditDefaultsOnly)
 		USkeletalMeshComponent* skeletalMeshEnemy = nullptr;
 	UPROPERTY(EditDefaultsOnly)
+		USceneComponent* root = nullptr;
+
+	UPROPERTY(EditDefaultsOnly)
 		UBoxComponent* boxCollider = nullptr;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		ElementType Element;
 
 protected:
-	UPROPERTY()
+	UPROPERTY(VisibleAnywhere)
 		USplineComponent* splinePath;
 	UPROPERTY(EditDefaultsOnly)
 		float moveSpeed;
@@ -57,5 +62,12 @@ protected:
 public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+
+	void SetSplinePath(USplineComponent* spline);
+
+	void ReachEnd();
+	//pool
+	virtual void Spawn()override;
+	virtual void Despawn()override;
 
 };

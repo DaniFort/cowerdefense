@@ -75,7 +75,7 @@ AActor* APoolerObjects::SpawnActor(UClass* actorType, FVector Position, FRotator
         {
             for (AActor* actor : group.objectsToPool)
             {
-                if (!actor->IsHidden())
+                if (actor->IsHidden())
                 {
                     actor->SetActorLocation(Position);
                     actor->SetActorRotation(Rotation);
@@ -96,7 +96,7 @@ AActor* APoolerObjects::SpawnActor(UClass* actorType, FVector Position, FRotator
                 SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
                 newActor = GetWorld()->SpawnActor<AActor>(groupClass, SpawnParams);
             }
-
+            Cast<IPooledObject>(newActor)->Spawn();
             newActor->SetActorLocation(Position);
             newActor->SetActorRotation(Rotation);
             group.objectsToPool.Add(newActor);
