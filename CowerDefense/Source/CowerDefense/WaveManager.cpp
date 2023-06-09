@@ -81,11 +81,6 @@ void AWaveManager::SpawnEnemy()
 	if (runingWave->IsWaveFinished())
 	{
 		//acabar oleada
-		currentWave++;
-		if (currentWave >= waveOrder.Num())
-		{
-			SetActorTickEnabled(false);
-		}
 		NextWave();
 		return;
 	}
@@ -100,5 +95,12 @@ void AWaveManager::StartWave()
 
 void AWaveManager::NextWave()
 {
+	currentWave++;
+	if (currentWave >= waveOrder.Num())
+	{
+		SetActorTickEnabled(false);
+	}
+	GEngine->AddOnScreenDebugMessage(5, elapsedTime, FColor::Orange, "NEXT WAVE");
+	//meter texto por ptantalla
 	//cosas de texto y esas cosas
 }

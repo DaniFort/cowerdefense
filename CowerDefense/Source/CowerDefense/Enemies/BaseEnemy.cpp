@@ -4,6 +4,8 @@
 #include "BaseEnemy.h"
 #include "Components/SplineComponent.h"
 #include "Engine/SplineMeshActor.h"
+#include "CowerDefense/GameModes/GameModeLevel1.h"
+
 #include "Components/BoxComponent.h"
 
 // Sets default values
@@ -31,6 +33,7 @@ void ABaseEnemy::BeginPlay()
 	if (!splinePath)
 		return;
 	isAlive = true;
+	health = maxHealth;
 
 }
 
@@ -41,8 +44,8 @@ void ABaseEnemy::Tick(float DeltaTime)
 
 	if (isAlive == false)
 		return;
-	if (health <= 0)
-		isAlive = false;
+
+
 
 	timeProgression += DeltaTime;
 	follow_path();
@@ -67,10 +70,23 @@ void ABaseEnemy::follow_path()
 }
 void ABaseEnemy::ReachEnd()
 {
+	AGameModeLevel1* gameMode = Cast<AGameModeLevel1>(GetWorld()->GetAuthGameMode());
+	gameMode->GetGameStats()->GetDamage(damageOnWin);
 
-	GEngine->AddOnScreenDebugMessage(5, 5, FColor::Red, TEXT("Gane"));
 	Despawn();
 }
+
+
+void ABaseEnemy::OnGetDamage(float damage)
+{
+	health -= damage;
+	if (health <= 0)
+	{
+		Despawn();
+	}
+}
+
+
 
 void ABaseEnemy::Spawn()
 {
@@ -78,6 +94,7 @@ void ABaseEnemy::Spawn()
 	SetActorHiddenInGame(false);
 	skeletalMeshEnemy->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
 	SetActorTickEnabled(true);
+	health = maxHealth;
 
 
 }

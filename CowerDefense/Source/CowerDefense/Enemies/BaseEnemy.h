@@ -30,7 +30,10 @@ class COWERDEFENSE_API ABaseEnemy : public APawn , public IPooledObject
 
 public:
 	UPROPERTY(EditDefaultsOnly)
-		float health;
+	float maxHealth;
+	float health;
+	UPROPERTY(EditDefaultsOnly)
+		float damageOnWin{ 30 };
 	// Sets default values for this pawn's properties
 	ABaseEnemy();
 
@@ -66,6 +69,8 @@ public:
 	void SetSplinePath(USplineComponent* spline);
 
 	void ReachEnd();
+
+	void OnGetDamage(float damge);
 	//pool
 	virtual void Spawn()override;
 	virtual void Despawn()override;
