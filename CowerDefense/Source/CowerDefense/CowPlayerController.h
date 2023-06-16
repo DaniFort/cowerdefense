@@ -3,10 +3,11 @@
 #pragma once
 
 #include "CoreMinimal.h"
+//#include "CowPlayer.h"
 #include "GameFramework/PlayerController.h"
 #include "CowPlayerController.generated.h"
 
-
+class ACowPlayer;
 
 UCLASS()
 class COWERDEFENSE_API ACowPlayerController : public APlayerController
@@ -14,8 +15,12 @@ class COWERDEFENSE_API ACowPlayerController : public APlayerController
 	GENERATED_BODY()
 	
 public:
-	//virtual void SetupInputComponent() override;
 
 	UFUNCTION()
-	void Move(float horizontalMovement);
+	void SetPlayerBool(bool bIsPlacingTurret);
+
+	UPROPERTY(VisibleDefaultsOnly)
+	ACowPlayer* cowPlayer = nullptr;
+
+	
 };
