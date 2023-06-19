@@ -4,7 +4,9 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
-#include "Turret.h"
+#include "CowPlayer.h"
+#include "CowPlayerController.h"
+#include "Kismet/GameplayStatics.h"
 #include "SelectWidget.generated.h"
 
 class UButton;
@@ -19,6 +21,12 @@ public:
 	UButton* normalTurretButton = nullptr;
 
 	virtual void NativeConstruct() override;
+
+	UPROPERTY(VisibleAnywhere)
+	APawn* cowPlayer = nullptr;
+
+	UPROPERTY(VisibleAnywhere)
+	ACowPlayerController* cowPlayerPC = nullptr;
 	
 UFUNCTION()
 	void OnButtonClickNormal();

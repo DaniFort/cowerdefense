@@ -2,6 +2,9 @@
 
 #pragma once
 
+#include "NiagaraFunctionLibrary.h"
+#include "NiagaraComponent.h"
+
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "Turret.generated.h"
@@ -11,6 +14,7 @@ class UBoxComponent;
 class USceneComponent;
 class USphereComponent;
 class ABaseEnemy;
+class UNiagaraComponent;
 
 UENUM(NotBlueprintType)
 enum class ElementTypes : uint8 {
@@ -52,12 +56,27 @@ public:
 		ElementTypes Element;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		TargetType Target;
+
+	UPROPERTY(EditAnywhere,BlueprintReadWrite)
+		USceneComponent* shootPoint0 = nullptr;
+	UPROPERTY(EditAnywhere,BlueprintReadWrite)
+		USceneComponent* shootPoint1 = nullptr;
+	UPROPERTY(EditAnywhere,BlueprintReadWrite)
+		USceneComponent* shootPoint2 = nullptr;
+	UPROPERTY(EditAnywhere,BlueprintReadWrite)
+		USceneComponent* shootPoint3 = nullptr;
 	
+	UPROPERTY(EditAnywhere,BlueprintReadWrite)
+		UNiagaraComponent* milkBeam;
+
+	void SetIsActive(bool bIsActive) { isActive = bIsActive; }
 	
 private:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+	UPROPERTY(VisibleAnywhere)
+		bool isActive = false;
 	UPROPERTY(EditDefaultsOnly, meta = (AllowPrivateAccess))
 		float attackPower;
 	UPROPERTY(EditDefaultsOnly, meta = (AllowPrivateAccess))
@@ -83,6 +102,9 @@ private:
 	UFUNCTION()
 		void OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
 
+	UFUNCTION(CallInEditor)
+		void ShootMilkBeam();
+	
 	UFUNCTION()
 	void RotateTowardsEnemy(FVector whereToLook);
 	

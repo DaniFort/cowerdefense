@@ -1,6 +1,6 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-
+#include "CowPlayer.h"
 #include "CowPlayerController.h"
 
 // void ACowPlayerController::SetupInputComponent()
@@ -17,8 +17,9 @@
 //	}
 //}
 
-void ACowPlayerController::Move(float horizontalMovement)
+void ACowPlayerController::SetPlayerBool(bool bIsPlacingTurret)
 {
-	UE_LOG(LogTemp, Log, TEXT("horizontal"));
+	cowPlayer = Cast<ACowPlayer>(GetPawn());
+	cowPlayer->SetIsPlacingTurret(bIsPlacingTurret);
 }
 

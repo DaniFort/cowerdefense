@@ -30,17 +30,17 @@ ATurret::ATurret()
 
 	enemiesDetected.Reserve(5);
 
-	USceneComponent* shootPoint0 = CreateDefaultSubobject<USceneComponent>(TEXT("Shoot Point 0"));
+	shootPoint0 = CreateDefaultSubobject<USceneComponent>(TEXT("Shoot Point 0"));
 	shootPoint0->SetupAttachment(pivotStaticMesh);
-	USceneComponent* shootPoint1 = CreateDefaultSubobject<USceneComponent>(TEXT("Shoot Point 1"));
-	shootPoint1->SetupAttachment(pivotStaticMesh);
-	USceneComponent* shootPoint2 = CreateDefaultSubobject<USceneComponent>(TEXT("Shoot Point 2"));
-	shootPoint2->SetupAttachment(pivotStaticMesh);
-	USceneComponent* shootPoint3 = CreateDefaultSubobject<USceneComponent>(TEXT("Shoot Point 3"));
-	shootPoint3->SetupAttachment(pivotStaticMesh);
 	shootPoints.Add(shootPoint0);
+	shootPoint1 = CreateDefaultSubobject<USceneComponent>(TEXT("Shoot Point 1"));
+	shootPoint1->SetupAttachment(pivotStaticMesh);
 	shootPoints.Add(shootPoint1);
+	shootPoint2 = CreateDefaultSubobject<USceneComponent>(TEXT("Shoot Point 2"));
+	shootPoint2->SetupAttachment(pivotStaticMesh);
 	shootPoints.Add(shootPoint2);
+	shootPoint3 = CreateDefaultSubobject<USceneComponent>(TEXT("Shoot Point 3"));
+	shootPoint3->SetupAttachment(pivotStaticMesh);
 	shootPoints.Add(shootPoint3);
 	
 	staticMeshBase = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("static Mesh Base"));
@@ -61,6 +61,9 @@ ATurret::ATurret()
 	sphereCollider = CreateDefaultSubobject<USphereComponent>(TEXT("sphere Collider"));
 	sphereCollider->SetupAttachment(rootCmp);
 	sphereCollider->SetSphereRadius(range);
+
+	milkBeam = CreateDefaultSubobject<UNiagaraComponent>(TEXT("Milk Beam"));
+	milkBeam->SetupAttachment(rootCmp);
 }
 
 #if WITH_EDITOR
@@ -88,9 +91,10 @@ void ATurret::PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent
 void ATurret::BeginPlay()
 {
 	Super::BeginPlay();
-
+ShootMilkBeam();
 	sphereCollider->OnComponentBeginOverlap.AddDynamic(this, &ATurret::OnOverlapBegin);
 	sphereCollider->OnComponentEndOverlap.AddDynamic(this, &ATurret::OnOverlapEnd);
+	sphereCollider->
 }
 
 // Called every frame
@@ -129,5 +133,11 @@ void ATurret::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherAct
 		enemiesDetected.Remove(enemyEndHit);
 		UE_LOG(LogTemp, Warning, TEXT("ADIOS OK"));
 	}
+}
+
+void ATurret::ShootMilkBeam()
+{
+	milkBeam->Activate();
+	
 }
 
