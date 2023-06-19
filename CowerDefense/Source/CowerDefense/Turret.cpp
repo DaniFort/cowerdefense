@@ -94,7 +94,7 @@ void ATurret::BeginPlay()
 ShootMilkBeam();
 	sphereCollider->OnComponentBeginOverlap.AddDynamic(this, &ATurret::OnOverlapBegin);
 	sphereCollider->OnComponentEndOverlap.AddDynamic(this, &ATurret::OnOverlapEnd);
-	sphereCollider->
+	//sphereCollider->
 }
 
 // Called every frame
@@ -141,3 +141,22 @@ void ATurret::ShootMilkBeam()
 	
 }
 
+void ATurret::Spawn()
+{
+	SetActorHiddenInGame(false);
+	staticMeshTurret->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+	staticMeshBase->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+	staticMeshStick->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+	SetActorTickEnabled(true);
+
+
+}
+void ATurret::Despawn()
+{
+	SetActorHiddenInGame(true);
+	staticMeshTurret->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	staticMeshBase->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	staticMeshStick->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	SetActorTickEnabled(false);
+
+}

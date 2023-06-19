@@ -3,7 +3,7 @@
 
 #include "PoolerObjects.h"
 #include "CowerDefense/GameModes/GameModeLevel1.h"
-
+#include "CowerDefense/CowGameMode.h"
 #include "GameFrameWork/Character.h"
 
 // Sets default values
@@ -20,6 +20,10 @@ void APoolerObjects::PreInitializeComponents()
     Super::PreInitializeComponents();
 
     if (AGameModeLevel1* gameMode = Cast<AGameModeLevel1>(GetWorld()->GetAuthGameMode()))
+    {
+        gameMode->SetSpawnPool(this);
+    }
+    if (ACowGameMode* gameMode = Cast<ACowGameMode>(GetWorld()->GetAuthGameMode()))
     {
         gameMode->SetSpawnPool(this);
     }

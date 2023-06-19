@@ -8,6 +8,9 @@
 #include "Components/Button.h"
 #include "Components/SphereComponent.h"
 #include "Turret.h"
+#include "CowGameMode.h"
+#include "CowerDefense/ObjectPooler/PoolerObjects.h"
+
 
 // Sets default values
 ACowPlayer::ACowPlayer()
@@ -115,8 +118,16 @@ void ACowPlayer::SpawnTurret()
 	FTransform tempTransform;
 	tempTransform.SetLocation(hit.Location);
 	tempTransform.SetRotation(FQuat(FRotator(0,0,0)));
-	ATurret* tempTurret = GetWorld()->SpawnActor<ATurret>(normalTurret, tempTransform);
-	tempTurret->SetActorEnableCollision(true);
+	//ATurret* tempTurret = GetWorld()->SpawnActor<ATurret>(normalTurret, tempTransform);
+
+	ACowGameMode* gameMode = Cast<ACowGameMode>(GetWorld()->GetAuthGameMode());
+	APoolerObjects* pool = Cast<APoolerObjects>(gameMode->GetSpawnPool());
+	AActor* newItem = pool->SpawnActor(normalTurret, tempTransform.GetLocation(), FRotator(0, 0, 0));
+	if (ATurret* tempTurret = Cast<ATurret>(newItem))
+	{
+		tempTurret->SetActorEnableCollision(true);
+
+	}
 	
 	isPlacingTurret = false;
 }

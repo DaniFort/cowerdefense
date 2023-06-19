@@ -4,6 +4,7 @@
 
 #include "NiagaraFunctionLibrary.h"
 #include "NiagaraComponent.h"
+#include "CowerDefense/ObjectPooler/PooledObject.h"
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
@@ -34,7 +35,7 @@ enum class TargetType : uint8 {
 };
 
 UCLASS()
-class COWERDEFENSE_API ATurret : public AActor
+class COWERDEFENSE_API ATurret : public AActor, public IPooledObject
 {
 	GENERATED_BODY()
 	
@@ -115,6 +116,9 @@ private:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+
+	virtual void Spawn()override;
+	virtual void Despawn()override;
 
 
 };
