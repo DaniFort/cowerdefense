@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 //#include "CowPlayer.h"
+#include "CowProperties.h"
 #include "GameFramework/PlayerController.h"
 #include "CowPlayerController.generated.h"
 
@@ -17,7 +18,7 @@ class COWERDEFENSE_API ACowPlayerController : public APlayerController
 public:
 
 	UFUNCTION()
-	void SetPlayerBool(bool bIsPlacingTurret);
+	void SetPlayerBool(bool bIsPlacingTurret, EElements elementType);
 
 	UPROPERTY(VisibleDefaultsOnly)
 	ACowPlayer* cowPlayer = nullptr;

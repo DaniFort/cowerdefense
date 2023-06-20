@@ -5,6 +5,7 @@
 #include "NiagaraFunctionLibrary.h"
 #include "NiagaraComponent.h"
 #include "CowerDefense/ObjectPooler/PooledObject.h"
+#include "CowProperties.h"
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
@@ -17,13 +18,13 @@ class USphereComponent;
 class ABaseEnemy;
 class UNiagaraComponent;
 
-UENUM(NotBlueprintType)
-enum class ElementTypes : uint8 {
-	None = 0		UMETA(DisplayName = "None"),
-	Fire = 1        UMETA(DisplayName = "Fire"),
-	Water = 2       UMETA(DisplayName = "Water"),
-	Plant = 3		UMETA(DisplayName = "Plant"),
-};
+//UENUM(NotBlueprintType)
+//enum class ElementTypes : uint8 {
+//	None = 0		UMETA(DisplayName = "None"),
+//	Fire = 1        UMETA(DisplayName = "Fire"),
+//	Water = 2       UMETA(DisplayName = "Water"),
+//	Plant = 3		UMETA(DisplayName = "Plant"),
+//};
 
 UENUM(NotBlueprintType)
 enum class TargetType : uint8 {
@@ -54,7 +55,7 @@ public:
 	UPROPERTY(EditDefaultsOnly)
 	USphereComponent* sphereCollider = nullptr;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		ElementTypes Element;
+		EElements Element;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		TargetType Target;
 

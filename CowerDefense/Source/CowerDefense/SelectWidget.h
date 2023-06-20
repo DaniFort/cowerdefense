@@ -6,7 +6,8 @@
 #include "Blueprint/UserWidget.h"
 #include "CowPlayer.h"
 #include "CowPlayerController.h"
-#include "Kismet/GameplayStatics.h"
+#include "CowProperties.h"
+
 #include "SelectWidget.generated.h"
 
 class UButton;
@@ -19,6 +20,12 @@ class COWERDEFENSE_API USelectWidget : public UUserWidget
 public:
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
 	UButton* normalTurretButton = nullptr;
+	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
+	UButton* fireTurretButton = nullptr;
+	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
+	UButton* waterTurretButton = nullptr;
+	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
+	UButton* plantTurretButton = nullptr;
 
 	virtual void NativeConstruct() override;
 
@@ -30,4 +37,10 @@ public:
 	
 UFUNCTION()
 	void OnButtonClickNormal();
+	UFUNCTION()
+	void OnButtonClickFire();
+	UFUNCTION()
+	void OnButtonClickWater();
+	UFUNCTION()
+	void OnButtonClickPlant();
 };
