@@ -5,6 +5,7 @@
 #include "CowerDefense/GameModes/GameModeLevel1.h"
 #include "Components/SplineComponent.h"
 #include "CowerDefense/Enemies/BaseEnemy.h"
+#include "CowGameMode.h"
 
 #include "CowerDefense/ObjectPooler/PoolerObjects.h"
 
@@ -22,6 +23,10 @@ void AWaveManager::BeginPlay()
 	Super::BeginPlay();
 
 	if (AGameModeLevel1* gameMode = Cast<AGameModeLevel1>(GetWorld()->GetAuthGameMode()))
+	{
+		pool = gameMode->GetSpawnPool();
+	}
+	if (ACowGameMode* gameMode = Cast<ACowGameMode>(GetWorld()->GetAuthGameMode()))
 	{
 		pool = gameMode->GetSpawnPool();
 	}
@@ -99,6 +104,10 @@ void AWaveManager::NextWave()
 	if (currentWave >= waveOrder.Num())
 	{
 		SetActorTickEnabled(false);
+	}
+	else
+	{
+		//fin juego 
 	}
 	GEngine->AddOnScreenDebugMessage(5, elapsedTime, FColor::Orange, "NEXT WAVE");
 	//meter texto por ptantalla

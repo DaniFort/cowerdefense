@@ -4,7 +4,7 @@
 #include "BaseEnemy.h"
 #include "Components/SplineComponent.h"
 #include "Engine/SplineMeshActor.h"
-#include "CowerDefense/GameModes/GameModeLevel1.h"
+#include "CowerDefense/CowGameMode.h"
 
 #include "Components/BoxComponent.h"
 
@@ -70,7 +70,7 @@ void ABaseEnemy::follow_path()
 }
 void ABaseEnemy::ReachEnd()
 {
-	AGameModeLevel1* gameMode = Cast<AGameModeLevel1>(GetWorld()->GetAuthGameMode());
+	ACowGameMode* gameMode = Cast<ACowGameMode>(GetWorld()->GetAuthGameMode());
 	gameMode->GetGameStats()->GetDamage(damageOnWin);
 
 	Despawn();
