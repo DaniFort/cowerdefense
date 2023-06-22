@@ -9,17 +9,15 @@
   <component name="ChangeListManager">
     <list default="true" id="c8317df7-9fe1-40f7-90ef-adddd75e4d02" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.CowerDefense/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.CowerDefense/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Art/Models/Turrets/NormalTurret/cow.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Art/Models/Turrets/NormalTurret/cow.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Art/Models/Turrets/NormalTurret/tornado_cow_material.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/BP/Player/BP_CowPlayer.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/BP/Player/BP_CowPlayer.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Config/DefaultEngine.ini" beforeDir="false" afterPath="$PROJECT_DIR$/Config/DefaultEngine.ini" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/BP/Turret/Turrets/BP_FireTurret.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/BP/Turret/Turrets/BP_FireTurret.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/BP/Turret/Turrets/BP_PlantTurret.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/BP/Turret/Turrets/BP_PlantTurret.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/BP/Turret/Turrets/BP_TurretNormal.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/BP/Turret/Turrets/BP_TurretNormal.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/BP/Turret/Turrets/BP_WaterTurret.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/BP/Turret/Turrets/BP_WaterTurret.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Content/Level/TurretLevel.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Level/TurretLevel.umap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Widget/SelectTurretWidget.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Widget/SelectTurretWidget.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Map/L_Level00.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Map/L_Level00.umap" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/CowerDefense/CowPlayer.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/CowerDefense/CowPlayer.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/CowerDefense/CowPlayer.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/CowerDefense/CowPlayer.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/CowerDefense/CowPlayerController.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/CowerDefense/CowPlayerController.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/CowerDefense/CowPlayerController.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/CowerDefense/CowPlayerController.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/CowerDefense/SelectWidget.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/CowerDefense/SelectWidget.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/CowerDefense/SelectWidget.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/CowerDefense/SelectWidget.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/CowerDefense/Turret.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/CowerDefense/Turret.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/CowerDefense/Turret.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/CowerDefense/Turret.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -271,6 +269,9 @@
       <workItem from="1686929625485" duration="8843000" />
       <workItem from="1687263956225" duration="977000" />
       <workItem from="1687275116925" duration="8398000" />
+      <workItem from="1687296689126" duration="654000" />
+      <workItem from="1687372073294" duration="3095000" />
+      <workItem from="1687378226313" duration="1206000" />
     </task>
     <servers />
   </component>

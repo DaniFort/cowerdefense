@@ -178,7 +178,7 @@ void ACowPlayer::SpawnTurret()
 		if (ATurret* tempTurret = Cast<ATurret>(newItem))
 		{
 			tempTurret->SetActorEnableCollision(true);
-
+			tempTurret->ActivateCollision();
 		}
 		break;
 
@@ -187,7 +187,7 @@ void ACowPlayer::SpawnTurret()
 		if (ATurret* tempTurret = Cast<ATurret>(newItem))
 		{
 			tempTurret->SetActorEnableCollision(true);
-
+			tempTurret->ActivateCollision();
 		}
 		break;
 
@@ -196,6 +196,7 @@ void ACowPlayer::SpawnTurret()
 		if (ATurret* tempTurret = Cast<ATurret>(newItem))
 		{
 			tempTurret->SetActorEnableCollision(true);
+			tempTurret->ActivateCollision();
 
 		}
 		break;
@@ -205,7 +206,7 @@ void ACowPlayer::SpawnTurret()
 		if (ATurret* tempTurret = Cast<ATurret>(newItem))
 		{
 			tempTurret->SetActorEnableCollision(true);
-
+			tempTurret->ActivateCollision();
 		}
 		break;
 	}

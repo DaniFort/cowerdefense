@@ -3,6 +3,8 @@
 
 #include "Turret.h"
 
+#include <string>
+
 #include "Components/BoxComponent.h"
 #include "Components/SceneComponent.h"
 #include "Components/SphereComponent.h"
@@ -60,7 +62,7 @@ ATurret::ATurret()
 
 	sphereCollider = CreateDefaultSubobject<USphereComponent>(TEXT("sphere Collider"));
 	sphereCollider->SetupAttachment(rootCmp);
-	sphereCollider->SetSphereRadius(range);
+	sphereCollider->SetSphereRadius(maxRange);
 
 	milkBeam = CreateDefaultSubobject<UNiagaraComponent>(TEXT("Milk Beam"));
 	milkBeam->SetupAttachment(rootCmp);
@@ -69,10 +71,10 @@ ATurret::ATurret()
 #if WITH_EDITOR
 void ATurret::PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent)
 {
-	if (PropertyChangedEvent.GetPropertyName().ToString() == FString("range"))
+	if (PropertyChangedEvent.GetPropertyName().ToString() == FString("maxRange"))
 	{
 		UE_LOG(LogTemp, Warning, TEXT("%s"), *PropertyChangedEvent.GetPropertyName().ToString());
-		sphereCollider->SetSphereRadius(range);
+		sphereCollider->SetSphereRadius(maxRange);
 	}
 	else if (PropertyChangedEvent.GetPropertyName().ToString() == FString("buyPrice"))
 	{
@@ -87,14 +89,29 @@ void ATurret::PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent
 }
 #endif
 
+void ATurret::EnableCollision()
+{
+	range = FMath::Lerp(0, maxRange, alphaCollision);
+	UE_LOG(LogTemp, Warning, TEXT("%f"), range);
+	if (range >= maxRange)
+	{
+		isEnablingCollision = false;
+		range = maxRange;
+	}
+}
+
+void ATurret::ActivateCollision()
+{
+	isEnablingCollision = true;
+}
+
 // Called when the game starts or when spawned
 void ATurret::BeginPlay()
 {
 	Super::BeginPlay();
-ShootMilkBeam();
+	ShootMilkBeam();
 	sphereCollider->OnComponentBeginOverlap.AddDynamic(this, &ATurret::OnOverlapBegin);
 	sphereCollider->OnComponentEndOverlap.AddDynamic(this, &ATurret::OnOverlapEnd);
-	//sphereCollider->
 }
 
 // Called every frame
@@ -104,6 +121,13 @@ void ATurret::Tick(float DeltaTime)
 	if (!enemiesDetected.IsEmpty() && enemiesDetected[0] != nullptr)
 	{
 		RotateTowardsEnemy(enemiesDetected[0]->GetActorLocation());
+	}
+
+	if (isEnablingCollision)
+	{
+		EnableCollision();
+		sphereCollider->SetSphereRadius(range, true);
+		alphaCollision+= DeltaTime;
 	}
 
 }

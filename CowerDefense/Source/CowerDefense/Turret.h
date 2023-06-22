@@ -72,6 +72,8 @@ public:
 		UNiagaraComponent* milkBeam;
 
 	void SetIsActive(bool bIsActive) { isActive = bIsActive; }
+
+	void ActivateCollision();
 	
 private:
 	// Called when the game starts or when spawned
@@ -79,6 +81,10 @@ private:
 
 	UPROPERTY(VisibleAnywhere)
 		bool isActive = false;
+	UPROPERTY(VisibleAnywhere)
+		bool isEnablingCollision = false;
+	UPROPERTY()
+		float alphaCollision = 0; 
 	UPROPERTY(EditDefaultsOnly, meta = (AllowPrivateAccess))
 		float attackPower;
 	UPROPERTY(EditDefaultsOnly, meta = (AllowPrivateAccess))
@@ -88,7 +94,9 @@ private:
 	UPROPERTY(EditDefaultsOnly, meta = (AllowPrivateAccess))
 		int sellPrice;
 	UPROPERTY(EditDefaultsOnly, meta = (AllowPrivateAccess))
-		float range;
+		float maxRange;
+	UPROPERTY(BlueprintReadOnly, meta = (AllowPrivateAccess))
+		float range = 0;
 	UPROPERTY(EditDefaultsOnly, meta = (AllowPrivateAccess))
 		USceneComponent* pivotStaticMesh;
 	
@@ -109,6 +117,8 @@ private:
 	
 	UFUNCTION()
 	void RotateTowardsEnemy(FVector whereToLook);
+
+	void EnableCollision();
 	
 #if WITH_EDITOR
 	virtual void PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent) override;
