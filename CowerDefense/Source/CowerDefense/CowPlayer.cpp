@@ -25,9 +25,10 @@ ACowPlayer::ACowPlayer()
 	playerCollider->SetupAttachment(RootComponent);
 }
 
-void ACowPlayer::SetIsPlacingTurret(bool bIsPlacing)
+void ACowPlayer::SetIsPlacingTurret(bool bIsPlacing, EElements elementType)
 {
 	isPlacingTurret = bIsPlacing;
+	turretElement = elementType;
 }
 
 // Called when the game starts or when spawned
@@ -40,9 +41,24 @@ void ACowPlayer::BeginPlay()
 	selectWidgetInstance->AddToViewport();
 
 	normalTurretInstance =  GetWorld()->SpawnActor<ATurret>(normalTurret, GetActorTransform());
-	normalTurretInstance->SetActorRotation(FQuat::Identity); //SetRotation(FQuat(FRotator(0,0,0)));
+	normalTurretInstance->SetActorRotation(FQuat::Identity); 
 	normalTurretInstance->SetActorEnableCollision(false);
 	normalTurretInstance->SetIsActive(false);
+
+	fireTurretInstance =  GetWorld()->SpawnActor<ATurret>(fireTurret, GetActorTransform());    
+	fireTurretInstance->SetActorRotation(FQuat::Identity); 
+	fireTurretInstance->SetActorEnableCollision(false);                                          
+	fireTurretInstance->SetIsActive(false);
+
+	waterTurretInstance =  GetWorld()->SpawnActor<ATurret>(waterTurret, GetActorTransform());    
+	waterTurretInstance->SetActorRotation(FQuat::Identity); 
+	waterTurretInstance->SetActorEnableCollision(false);                                          
+	waterTurretInstance->SetIsActive(false);
+
+	plantTurretInstance =  GetWorld()->SpawnActor<ATurret>(plantTurret, GetActorTransform());    
+	plantTurretInstance->SetActorRotation(FQuat::Identity); 
+	plantTurretInstance->SetActorEnableCollision(false);                                          
+	plantTurretInstance->SetIsActive(false);                                                      
 }
 
 // Called every frame
@@ -55,12 +71,21 @@ void ACowPlayer::Tick(float DeltaTime)
 	{
 		PlaceTurret();
 		selectWidgetInstance->normalTurretButton->SetVisibility(ESlateVisibility::Hidden);
-		normalTurretInstance->SetActorHiddenInGame(false);
+		selectWidgetInstance->fireTurretButton->SetVisibility(ESlateVisibility::Hidden);
+		selectWidgetInstance->waterTurretButton->SetVisibility(ESlateVisibility::Hidden);
+		selectWidgetInstance->plantTurretButton->SetVisibility(ESlateVisibility::Hidden);
+		
 	}
 	else
 	{
 		selectWidgetInstance->normalTurretButton->SetVisibility(ESlateVisibility::Visible);
+		selectWidgetInstance->fireTurretButton->SetVisibility(ESlateVisibility::Visible);
+		selectWidgetInstance->waterTurretButton->SetVisibility(ESlateVisibility::Visible);
+		selectWidgetInstance->plantTurretButton->SetVisibility(ESlateVisibility::Visible);
 		normalTurretInstance->SetActorHiddenInGame(true);
+		fireTurretInstance->SetActorHiddenInGame(true);    
+		waterTurretInstance->SetActorHiddenInGame(true);   
+		plantTurretInstance->SetActorHiddenInGame(true);   
 	}
 }
 
@@ -104,7 +129,29 @@ void ACowPlayer::PlaceTurret()
 	
 	DrawDebugLine(GetWorld(), playerLocation, worldDirection, FColor::Black, false, 2.f);
 
-	normalTurretInstance->SetActorLocation(hit.Location);
+	switch (turretElement)
+	{
+	case 0:
+		normalTurretInstance->SetActorHiddenInGame(false);
+		normalTurretInstance->SetActorLocation(hit.Location);
+		break;
+
+	case 1:
+		fireTurretInstance->SetActorHiddenInGame(false);
+		fireTurretInstance->SetActorLocation(hit.Location);
+		break;
+		
+	case 2:
+		waterTurretInstance->SetActorHiddenInGame(false);
+		waterTurretInstance->SetActorLocation(hit.Location);
+		break;
+
+	case 3:
+		plantTurretInstance->SetActorHiddenInGame(false);
+		plantTurretInstance->SetActorLocation(hit.Location);
+		break;
+	}
+	
 	
 }
 
@@ -122,12 +169,48 @@ void ACowPlayer::SpawnTurret()
 
 	ACowGameMode* gameMode = Cast<ACowGameMode>(GetWorld()->GetAuthGameMode());
 	APoolerObjects* pool = Cast<APoolerObjects>(gameMode->GetSpawnPool());
-	AActor* newItem = pool->SpawnActor(normalTurret, tempTransform.GetLocation(), FRotator(0, 0, 0));
-	if (ATurret* tempTurret = Cast<ATurret>(newItem))
-	{
-		tempTurret->SetActorEnableCollision(true);
+	AActor* newItem = nullptr;
 
+	switch (turretElement)
+	{
+	case 0:
+		newItem = pool->SpawnActor(normalTurret, tempTransform.GetLocation(), FRotator(0, 0, 0));
+		if (ATurret* tempTurret = Cast<ATurret>(newItem))
+		{
+			tempTurret->SetActorEnableCollision(true);
+			tempTurret->ActivateCollision();
+		}
+		break;
+
+	case 1:
+		newItem = pool->SpawnActor(fireTurret, tempTransform.GetLocation(), FRotator(0, 0, 0));
+		if (ATurret* tempTurret = Cast<ATurret>(newItem))
+		{
+			tempTurret->SetActorEnableCollision(true);
+			tempTurret->ActivateCollision();
+		}
+		break;
+
+	case 2:
+		newItem = pool->SpawnActor(waterTurret, tempTransform.GetLocation(), FRotator(0, 0, 0));
+		if (ATurret* tempTurret = Cast<ATurret>(newItem))
+		{
+			tempTurret->SetActorEnableCollision(true);
+			tempTurret->ActivateCollision();
+
+		}
+		break;
+
+	case 3:
+		newItem = pool->SpawnActor(plantTurret, tempTransform.GetLocation(), FRotator(0, 0, 0));
+		if (ATurret* tempTurret = Cast<ATurret>(newItem))
+		{
+			tempTurret->SetActorEnableCollision(true);
+			tempTurret->ActivateCollision();
+		}
+		break;
 	}
+	
 	
 	isPlacingTurret = false;
 }

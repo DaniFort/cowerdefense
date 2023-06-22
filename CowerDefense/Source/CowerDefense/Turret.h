@@ -5,6 +5,7 @@
 #include "NiagaraFunctionLibrary.h"
 #include "NiagaraComponent.h"
 #include "CowerDefense/ObjectPooler/PooledObject.h"
+#include "CowProperties.h"
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
@@ -17,13 +18,13 @@ class USphereComponent;
 class ABaseEnemy;
 class UNiagaraComponent;
 
-UENUM(NotBlueprintType)
-enum class ElementTypes : uint8 {
-	None = 0		UMETA(DisplayName = "None"),
-	Fire = 1        UMETA(DisplayName = "Fire"),
-	Water = 2       UMETA(DisplayName = "Water"),
-	Plant = 3		UMETA(DisplayName = "Plant"),
-};
+//UENUM(NotBlueprintType)
+//enum class ElementTypes : uint8 {
+//	None = 0		UMETA(DisplayName = "None"),
+//	Fire = 1        UMETA(DisplayName = "Fire"),
+//	Water = 2       UMETA(DisplayName = "Water"),
+//	Plant = 3		UMETA(DisplayName = "Plant"),
+//};
 
 UENUM(NotBlueprintType)
 enum class TargetType : uint8 {
@@ -54,7 +55,7 @@ public:
 	UPROPERTY(EditDefaultsOnly)
 	USphereComponent* sphereCollider = nullptr;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		ElementTypes Element;
+		EElements Element;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		TargetType Target;
 
@@ -71,6 +72,8 @@ public:
 		UNiagaraComponent* milkBeam;
 
 	void SetIsActive(bool bIsActive) { isActive = bIsActive; }
+
+	void ActivateCollision();
 	
 private:
 	// Called when the game starts or when spawned
@@ -78,6 +81,10 @@ private:
 
 	UPROPERTY(VisibleAnywhere)
 		bool isActive = false;
+	UPROPERTY(VisibleAnywhere)
+		bool isEnablingCollision = false;
+	UPROPERTY()
+		float alphaCollision = 0; 
 	UPROPERTY(EditDefaultsOnly, meta = (AllowPrivateAccess))
 		float attackPower;
 	UPROPERTY(EditDefaultsOnly, meta = (AllowPrivateAccess))
@@ -87,7 +94,9 @@ private:
 	UPROPERTY(EditDefaultsOnly, meta = (AllowPrivateAccess))
 		int sellPrice;
 	UPROPERTY(EditDefaultsOnly, meta = (AllowPrivateAccess))
-		float range;
+		float maxRange;
+	UPROPERTY(BlueprintReadOnly, meta = (AllowPrivateAccess))
+		float range = 0;
 	UPROPERTY(EditDefaultsOnly, meta = (AllowPrivateAccess))
 		USceneComponent* pivotStaticMesh;
 	
@@ -108,6 +117,8 @@ private:
 	
 	UFUNCTION()
 	void RotateTowardsEnemy(FVector whereToLook);
+
+	void EnableCollision();
 	
 #if WITH_EDITOR
 	virtual void PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent) override;

@@ -33,8 +33,14 @@ public:
 
 	UPROPERTY(EditDefaultsOnly) TSubclassOf<ATurret> normalTurret;
 	UPROPERTY(BlueprintReadOnly) ATurret* normalTurretInstance = nullptr;
+	UPROPERTY(EditDefaultsOnly) TSubclassOf<ATurret> fireTurret;
+	UPROPERTY(BlueprintReadOnly) ATurret* fireTurretInstance = nullptr;
+	UPROPERTY(EditDefaultsOnly) TSubclassOf<ATurret> waterTurret;
+	UPROPERTY(BlueprintReadOnly) ATurret* waterTurretInstance = nullptr;
+	UPROPERTY(EditDefaultsOnly) TSubclassOf<ATurret> plantTurret;
+	UPROPERTY(BlueprintReadOnly) ATurret* plantTurretInstance = nullptr;
 
-	virtual void SetIsPlacingTurret(bool bIsPlacing);
+	virtual void SetIsPlacingTurret(bool bIsPlacing, EElements elementType);
 	
 protected:
 	// Called when the game starts or when spawned
@@ -46,6 +52,8 @@ private:
 	
 	UPROPERTY(EditAnywhere)
 		bool isPlacingTurret = false;
+	UPROPERTY(EditAnywhere)
+		EElements turretElement;
 
 	UPROPERTY(VisibleAnywhere)
 	ACowPlayerController* cowPC = Cast<ACowPlayerController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));

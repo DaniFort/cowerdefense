@@ -10,20 +10,13 @@
     <list default="true" id="c8317df7-9fe1-40f7-90ef-adddd75e4d02" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.CowerDefense/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.CowerDefense/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Config/DefaultEngine.ini" beforeDir="false" afterPath="$PROJECT_DIR$/Config/DefaultEngine.ini" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Config/DefaultInput.ini" beforeDir="false" afterPath="$PROJECT_DIR$/Config/DefaultInput.ini" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/BP/Player/BP_PlayerCamera.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/BP/Player/GM_CowGameMode.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/BP/Player/GM_CowGameMode.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/BP/Turret/BP_BaseTurret.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/BP/Turret/BP_BaseTurret.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/BP/Turret/Turrets/BP_FireTurret.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/BP/Turret/Turrets/BP_FireTurret.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/BP/Turret/Turrets/BP_PlantTurret.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/BP/Turret/Turrets/BP_PlantTurret.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Content/BP/Turret/Turrets/BP_TurretNormal.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/BP/Turret/Turrets/BP_TurretNormal.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/BP/Turret/Turrets/BP_WaterTurret.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/BP/Turret/Turrets/BP_WaterTurret.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Content/Level/TurretLevel.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Level/TurretLevel.umap" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Content/Map/L_Level00.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Map/L_Level00.umap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Widget/SelectTurretWidget.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Widget/SelectTurretWidget.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CowerDefense.uproject" beforeDir="false" afterPath="$PROJECT_DIR$/CowerDefense.uproject" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/CowerDefense/CowPlayerController.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/CowerDefense/CowPlayerController.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/CowerDefense/CowPlayerController.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/CowerDefense/CowPlayerController.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/CowerDefense/CowerDefense.Build.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Source/CowerDefense/CowerDefense.Build.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/CowerDefense/SelectWidget.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/CowerDefense/SelectWidget.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/CowerDefense/SelectWidget.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/CowerDefense/SelectWidget.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/CowerDefense/CowPlayer.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/CowerDefense/CowPlayer.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/CowerDefense/Turret.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/CowerDefense/Turret.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/CowerDefense/Turret.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/CowerDefense/Turret.h" afterDir="false" />
     </list>
@@ -33,6 +26,44 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="mock:///Dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cpp" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock:///Dummy.cpp" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock:///Dummy.cpp" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock:///Dummy.cpp" root0="SKIP_HIGHLIGHTING" />
@@ -236,6 +267,11 @@
       <workItem from="1686756364826" duration="4667000" />
       <workItem from="1686851244824" duration="6353000" />
       <workItem from="1686929625485" duration="8843000" />
+      <workItem from="1687263956225" duration="977000" />
+      <workItem from="1687275116925" duration="8398000" />
+      <workItem from="1687296689126" duration="654000" />
+      <workItem from="1687372073294" duration="3095000" />
+      <workItem from="1687378226313" duration="1206000" />
     </task>
     <servers />
   </component>
