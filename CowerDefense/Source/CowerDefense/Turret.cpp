@@ -92,11 +92,45 @@ void ATurret::PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent
 void ATurret::EnableCollision()
 {
 	range = FMath::Lerp(0, maxRange, alphaCollision);
-	UE_LOG(LogTemp, Warning, TEXT("%f"), range);
+	//UE_LOG(LogTemp, Warning, TEXT("%f"), range);
 	if (range >= maxRange)
 	{
 		isEnablingCollision = false;
 		range = maxRange;
+	}
+}
+
+void ATurret::AttackEnemy()
+{
+	if (timeToAttack <= 0 && !enemiesDetected.IsEmpty())
+	{
+		if (enemyToAttack->GetElement() == Element) //Ambos iguales EMPATE == NADA
+		{
+			enemyToAttack->ReceiveDamage(attackPower);
+		}
+		else if(enemyToAttack->GetElement() == EElements::None && Element != EElements::None) //Si enemigo es none y torreta cualquiera que no sea none GANA
+		{
+			enemyToAttack->ReceiveDamage(attackPower * winMultiplier);
+		}
+
+		if(enemyToAttack->GetElement() == EElements::Fire && Element == EElements::Water) //Si enemigo es fuego y torreta agua GANA
+		{
+			enemyToAttack->ReceiveDamage(attackPower * winMultiplier);
+		}
+		else if(enemyToAttack->GetElement() == EElements::Water && Element == EElements::Plant) //Si enemigo es agua y torreta planta GANA
+		{
+			enemyToAttack->ReceiveDamage(attackPower * winMultiplier);
+		}
+		else if(enemyToAttack->GetElement() == EElements::Plant && Element == EElements::Fire) //Si enemigo es planta y torreta fuego GANA
+		{
+			enemyToAttack->ReceiveDamage(attackPower * winMultiplier);
+		}
+		else if(enemyToAttack->GetElement() != EElements::None) //Llegados a este punto, torreta es none. Si enemigo no es none, PIERDE
+		{
+			enemyToAttack->ReceiveDamage(attackPower * loseMultiplier);
+		}
+		UE_LOG(LogTemp, Warning, TEXT("Atacado"));
+		timeToAttack = timeToAttackTotal;
 	}
 }
 
@@ -118,9 +152,11 @@ void ATurret::BeginPlay()
 void ATurret::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
+	SelectEnemyToAttack();
 	if (!enemiesDetected.IsEmpty() && enemiesDetected[0] != nullptr)
 	{
-		RotateTowardsEnemy(enemiesDetected[0]->GetActorLocation());
+		RotateTowardsEnemy();
 	}
 
 	if (isEnablingCollision)
@@ -130,12 +166,18 @@ void ATurret::Tick(float DeltaTime)
 		alphaCollision+= DeltaTime;
 	}
 
+	if (timeToAttack > 0)
+	{
+		timeToAttack -= attackVelocity * DeltaTime;
+	}
+
+	AttackEnemy();
 }
 
 
-void ATurret::RotateTowardsEnemy(FVector whereToLook)
+void ATurret::RotateTowardsEnemy()
 {
-	FRotator rotLookAt = UKismetMathLibrary::FindLookAtRotation(this->GetActorLocation(), enemiesDetected[0]->GetActorLocation());
+	FRotator rotLookAt = UKismetMathLibrary::FindLookAtRotation(this->GetActorLocation(), enemyToAttack->GetActorLocation());
 
 	pivotStaticMesh->SetWorldRotation(rotLookAt);
 }
@@ -146,7 +188,7 @@ void ATurret::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherA
 	if (ABaseEnemy* enemyBeginHit = Cast<ABaseEnemy>(OtherActor))
 	{
 		enemiesDetected.Add(enemyBeginHit);
-		UE_LOG(LogTemp, Warning, TEXT("HOLA OK"));
+		//UE_LOG(LogTemp, Warning, TEXT("HOLA OK"));
 	}
 }
 
@@ -163,6 +205,47 @@ void ATurret::ShootMilkBeam()
 {
 	milkBeam->Activate();
 	
+}
+
+void ATurret::SelectEnemyToAttack()
+{
+	if (enemiesDetected.IsEmpty())
+	{
+		return;
+	}
+
+	float maxAlpha = 0;
+	
+	switch (Target)
+	{
+	case 0: //First
+		for	(auto enemy : enemiesDetected)
+		{
+			if (enemy->GetAlpha() > maxAlpha)
+			{
+				maxAlpha = enemy->GetAlpha();
+				enemyToAttack = enemy;
+			}
+		}
+		break;
+
+	case 1: //Last
+
+		break;
+
+	case 2: //Fire
+
+		break;
+
+	case 3: //Water
+
+		break;
+
+	case 4: //Plant
+
+		break;
+	}
+
 }
 
 void ATurret::Spawn()

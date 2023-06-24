@@ -4,8 +4,12 @@
 #include "SelectWidget.h"
 
 #include "CowPlayerController.h"
+#include "Turret.h"
 #include "Components/Button.h"
+#include "Components/TextBlock.h"
 #include "Kismet/GameplayStatics.h"
+#include "Turret.h"
+#include "Components/CanvasPanel.h"
 
 void USelectWidget::NativeConstruct()
 {
@@ -13,50 +17,100 @@ void USelectWidget::NativeConstruct()
 	fireTurretButton->OnClicked.AddDynamic(this, &USelectWidget::OnButtonClickFire);
 	waterTurretButton->OnClicked.AddDynamic(this, &USelectWidget::OnButtonClickWater);
 	plantTurretButton->OnClicked.AddDynamic(this, &USelectWidget::OnButtonClickPlant);
+
+	targetPreviousButton->OnClicked.AddDynamic(this, &USelectWidget::OnButtonClickPrevious);
+	targetNextButton->OnClicked.AddDynamic(this, &USelectWidget::OnButtonClickNext);
+	targetCloseButton->OnClicked.AddDynamic(this, &USelectWidget::OnButtonClickClose);
+
+	cowPlayer = Cast<ACowPlayer>(UGameplayStatics::GetPlayerPawn(GetWorld(),0));
+	//cowPlayerPC = Cast<ACowPlayerController>(UGameplayStatics::GetPlayerController(GetWorld(),0));
 }
 
 void USelectWidget::OnButtonClickNormal()
 {
-	UE_LOG(LogTemp, Log, TEXT("BOTON NORMAL"));
-	
-	cowPlayer = UGameplayStatics::GetPlayerPawn(GetWorld(),0);
-	
-	cowPlayerPC = Cast<ACowPlayerController>(UGameplayStatics::GetPlayerController(GetWorld(),0));
-
-	cowPlayerPC->SetPlayerBool(true, EElements::None);
-	
+	cowPlayer->SetIsPlacingTurret(true, EElements::None);
 }
 
 void USelectWidget::OnButtonClickFire()
 {
-	UE_LOG(LogTemp, Log, TEXT("BOTON FIRE"));
-	
-	cowPlayer = UGameplayStatics::GetPlayerPawn(GetWorld(),0);
-	
-	cowPlayerPC = Cast<ACowPlayerController>(UGameplayStatics::GetPlayerController(GetWorld(),0));
-
-	cowPlayerPC->SetPlayerBool(true, EElements::Fire);
+	cowPlayer->SetIsPlacingTurret(true, EElements::Fire);
 }
 
 void USelectWidget::OnButtonClickWater()
 {
-	UE_LOG(LogTemp, Log, TEXT("BOTON WATER"));
-	
-	cowPlayer = UGameplayStatics::GetPlayerPawn(GetWorld(),0);
-	
-	cowPlayerPC = Cast<ACowPlayerController>(UGameplayStatics::GetPlayerController(GetWorld(),0));
-
-	cowPlayerPC->SetPlayerBool(true, EElements::Water);
+	cowPlayer->SetIsPlacingTurret(true, EElements::Water);
 }
 
 void USelectWidget::OnButtonClickPlant()
 {
-	UE_LOG(LogTemp, Log, TEXT("BOTON PLANT"));
-	
-	cowPlayer = UGameplayStatics::GetPlayerPawn(GetWorld(),0);
-	
-	cowPlayerPC = Cast<ACowPlayerController>(UGameplayStatics::GetPlayerController(GetWorld(),0));
+	cowPlayer->SetIsPlacingTurret(true, EElements::Plant);
+}
 
-	cowPlayerPC->SetPlayerBool(true, EElements::Plant);
+void USelectWidget::OnButtonClickPrevious()
+{
+	if (cowPlayer->GetSelectedTurret() == nullptr)
+	{
+		return;
+	}
+	
+	switch (cowPlayer->GetSelectedTurret()->Target)
+	{
+	case 0:
+		cowPlayer->GetSelectedTurret()->Target = TargetType::Plant;
+		targetText->SetText(FText::FromString("Plant"));
+		break;
+	case 1:
+		cowPlayer->GetSelectedTurret()->Target = TargetType::First;
+		targetText->SetText(FText::FromString("First"));
+		break;
+	case 2:
+		cowPlayer->GetSelectedTurret()->Target = TargetType::Last;
+		targetText->SetText(FText::FromString("Last"));
+		break;
+	case 3:
+		cowPlayer->GetSelectedTurret()->Target = TargetType::Fire;
+		targetText->SetText(FText::FromString("Fire"));
+		break;
+	case 4:
+		cowPlayer->GetSelectedTurret()->Target = TargetType::Water;
+		targetText->SetText(FText::FromString("Water"));
+		break;
+	}
+}
+
+void USelectWidget::OnButtonClickNext()
+{
+	if (cowPlayer->GetSelectedTurret() == nullptr)
+	{
+		return;
+	}
+	switch (cowPlayer->GetSelectedTurret()->Target)
+	{
+	case 0:
+		cowPlayer->GetSelectedTurret()->Target = TargetType::Last;
+		targetText->SetText(FText::FromString("Last"));
+		break;
+	case 1:
+		cowPlayer->GetSelectedTurret()->Target = TargetType::Fire;
+		targetText->SetText(FText::FromString("Fire"));
+		break;
+	case 2:
+		cowPlayer->GetSelectedTurret()->Target = TargetType::Water;
+		targetText->SetText(FText::FromString("Water"));
+		break;
+	case 3:
+		cowPlayer->GetSelectedTurret()->Target = TargetType::Plant;
+		targetText->SetText(FText::FromString("Plant"));
+		break;
+	case 4:
+		cowPlayer->GetSelectedTurret()->Target = TargetType::First;
+		targetText->SetText(FText::FromString("First"));
+		break;
+	}
+}
+
+void USelectWidget::OnButtonClickClose()
+{
+	targetCanvasPanel->SetVisibility(ESlateVisibility::Hidden);
 }
 

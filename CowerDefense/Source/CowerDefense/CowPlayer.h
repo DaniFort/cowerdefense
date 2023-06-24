@@ -41,6 +41,8 @@ public:
 	UPROPERTY(BlueprintReadOnly) ATurret* plantTurretInstance = nullptr;
 
 	virtual void SetIsPlacingTurret(bool bIsPlacing, EElements elementType);
+
+	ATurret* GetSelectedTurret() { return selectedTurret; }
 	
 protected:
 	// Called when the game starts or when spawned
@@ -52,6 +54,8 @@ private:
 	
 	UPROPERTY(EditAnywhere)
 		bool isPlacingTurret = false;
+	UPROPERTY(VisibleAnywhere)
+		ATurret* selectedTurret = nullptr;
 	UPROPERTY(EditAnywhere)
 		EElements turretElement;
 
@@ -66,4 +70,5 @@ private:
 	void PlaceTurret();
 	void SpawnTurret();
 	void ExitPlaceTurret();
+	void SelectTurret();
 };

@@ -9,6 +9,8 @@
 #include "Components/SphereComponent.h"
 #include "Turret.h"
 #include "CowGameMode.h"
+#include "Components/CanvasPanel.h"
+#include "Components/TextBlock.h"
 #include "CowerDefense/ObjectPooler/PoolerObjects.h"
 
 
@@ -39,23 +41,27 @@ void ACowPlayer::BeginPlay()
 	cowPC->SetShowMouseCursor(true);
 	selectWidgetInstance = CreateWidget<USelectWidget>(GetWorld(), selectWidget);
 	selectWidgetInstance->AddToViewport();
-
+	
 	normalTurretInstance =  GetWorld()->SpawnActor<ATurret>(normalTurret, GetActorTransform());
-	normalTurretInstance->SetActorRotation(FQuat::Identity); 
+	normalTurretInstance->SetActorScale3D(FVector(1,1,1));
+	normalTurretInstance->SetActorRotation(FQuat::Identity);
 	normalTurretInstance->SetActorEnableCollision(false);
 	normalTurretInstance->SetIsActive(false);
 
-	fireTurretInstance =  GetWorld()->SpawnActor<ATurret>(fireTurret, GetActorTransform());    
+	fireTurretInstance =  GetWorld()->SpawnActor<ATurret>(fireTurret, GetActorTransform());
+	fireTurretInstance->SetActorScale3D(FVector(1,1,1));
 	fireTurretInstance->SetActorRotation(FQuat::Identity); 
 	fireTurretInstance->SetActorEnableCollision(false);                                          
 	fireTurretInstance->SetIsActive(false);
 
-	waterTurretInstance =  GetWorld()->SpawnActor<ATurret>(waterTurret, GetActorTransform());    
+	waterTurretInstance =  GetWorld()->SpawnActor<ATurret>(waterTurret, GetActorTransform());
+	waterTurretInstance->SetActorScale3D(FVector(1,1,1));
 	waterTurretInstance->SetActorRotation(FQuat::Identity); 
 	waterTurretInstance->SetActorEnableCollision(false);                                          
 	waterTurretInstance->SetIsActive(false);
 
-	plantTurretInstance =  GetWorld()->SpawnActor<ATurret>(plantTurret, GetActorTransform());    
+	plantTurretInstance =  GetWorld()->SpawnActor<ATurret>(plantTurret, GetActorTransform());
+	plantTurretInstance->SetActorScale3D(FVector(1,1,1));
 	plantTurretInstance->SetActorRotation(FQuat::Identity); 
 	plantTurretInstance->SetActorEnableCollision(false);                                          
 	plantTurretInstance->SetIsActive(false);                                                      
@@ -96,6 +102,7 @@ void ACowPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent
 
 	InputComponent->BindAxis("Horizontal", this, &ACowPlayer::Move);
 	InputComponent->BindAction("LeftClick", IE_Pressed, this, &ACowPlayer::SpawnTurret);
+	InputComponent->BindAction("LeftClick", IE_Pressed, this, &ACowPlayer::SelectTurret);
 	InputComponent->BindAction("RightClick", IE_Pressed, this, &ACowPlayer::ExitPlaceTurret);
 }
 
@@ -223,5 +230,61 @@ void ACowPlayer::ExitPlaceTurret()
 	}
 
 	isPlacingTurret = false;
+}
+
+void ACowPlayer::SelectTurret()
+{
+	if (isPlacingTurret)
+	{
+		return;
+	}
+	
+	FVector playerLocation;
+	FRotator rotation;
+	
+	GetController()->GetPlayerViewPoint(playerLocation, rotation);
+	FVector mouseLocation;
+	FVector worldDirection;
+	
+	UGameplayStatics::GetPlayerController(GetWorld(),0)->DeprojectMousePositionToWorld(mouseLocation,worldDirection);
+
+	mouseLocation *= 5000000.f;
+	worldDirection *= 50000000.f;
+	
+	FCollisionQueryParams traceParams;
+	GetWorld()->LineTraceSingleByChannel(hit, playerLocation, worldDirection, ECC_Visibility, traceParams);
+	
+	
+
+	if (ATurret* turretSelected = Cast<ATurret>(hit.GetActor()))
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Objeto seleccionado: %s"), *turretSelected->GetName());
+		//DrawDebugLine(GetWorld(), playerLocation, worldDirection, FColor::Black, false, 2.f);
+		selectedTurret = turretSelected;
+		switch (selectedTurret->Target)
+		{
+		case 0:
+			selectWidgetInstance->targetText->SetText(FText::FromString("First"));
+			break;
+		case 1:
+			selectWidgetInstance->targetText->SetText(FText::FromString("Last"));
+			break;
+		case 2:
+			selectWidgetInstance->targetText->SetText(FText::FromString("Fire"));
+			break;
+		case 3:
+			selectWidgetInstance->targetText->SetText(FText::FromString("Water"));
+			break;
+		case 4:
+			selectWidgetInstance->targetText->SetText(FText::FromString("Plant"));
+			break;
+		}
+		selectWidgetInstance->targetCanvasPanel->SetVisibility(ESlateVisibility::Visible);
+	}
+	else
+	{
+		//selectedTurret = nullptr;
+	}
+
 }
 

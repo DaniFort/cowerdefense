@@ -18,14 +18,6 @@ class USphereComponent;
 class ABaseEnemy;
 class UNiagaraComponent;
 
-//UENUM(NotBlueprintType)
-//enum class ElementTypes : uint8 {
-//	None = 0		UMETA(DisplayName = "None"),
-//	Fire = 1        UMETA(DisplayName = "Fire"),
-//	Water = 2       UMETA(DisplayName = "Water"),
-//	Plant = 3		UMETA(DisplayName = "Plant"),
-//};
-
 UENUM(NotBlueprintType)
 enum class TargetType : uint8 {
 	First = 0		UMETA(DisplayName = "Attack First"),
@@ -89,6 +81,14 @@ private:
 		float attackPower;
 	UPROPERTY(EditDefaultsOnly, meta = (AllowPrivateAccess))
 		float attackVelocity;
+	UPROPERTY(VisibleAnywhere, meta = (AllowPrivateAccess))
+		float timeToAttack = 1.f;
+	UPROPERTY(VisibleAnywhere, meta = (AllowPrivateAccess))
+		float timeToAttackTotal = 1.f;
+	UPROPERTY(EditDefaultsOnly, meta = (AllowPrivateAccess))
+		float winMultiplier = 1.5f;
+	UPROPERTY(EditDefaultsOnly, meta = (AllowPrivateAccess))
+		float loseMultiplier = 0.75f;
 	UPROPERTY(EditDefaultsOnly, meta = (AllowPrivateAccess))
 		int buyPrice;
 	UPROPERTY(EditDefaultsOnly, meta = (AllowPrivateAccess))
@@ -105,6 +105,9 @@ private:
 
 	UPROPERTY(VisibleAnywhere)
 	TArray<ABaseEnemy*> enemiesDetected;
+
+	UPROPERTY(VisibleAnywhere)
+	ABaseEnemy* enemyToAttack = nullptr;
 	
 	UFUNCTION()
 	void OnOverlapBegin(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor,
@@ -114,11 +117,15 @@ private:
 
 	UFUNCTION(CallInEditor)
 		void ShootMilkBeam();
+
+	void SelectEnemyToAttack();
 	
 	UFUNCTION()
-	void RotateTowardsEnemy(FVector whereToLook);
+	void RotateTowardsEnemy();
 
 	void EnableCollision();
+
+	void AttackEnemy();
 	
 #if WITH_EDITOR
 	virtual void PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent) override;

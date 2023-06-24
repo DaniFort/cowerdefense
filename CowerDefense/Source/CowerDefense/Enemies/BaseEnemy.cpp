@@ -54,7 +54,7 @@ void ABaseEnemy::Tick(float DeltaTime)
 
 void ABaseEnemy::follow_path()
 {
-	float alpha = timeProgression / timeToFinish;
+	alpha = timeProgression / timeToFinish;
 	float splineLenght = splinePath->GetSplineLength();
 	
 	//FString hola = FString::SanitizeFloat(alpha);
@@ -77,7 +77,7 @@ void ABaseEnemy::ReachEnd()
 }
 
 
-void ABaseEnemy::OnGetDamage(float damage)
+void ABaseEnemy::ReceiveDamage(float damage)
 {
 	health -= damage;
 	if (health <= 0)
@@ -102,6 +102,7 @@ void ABaseEnemy::Despawn()
 {
 	isAlive = false;
 	SetActorHiddenInGame(true);
+	boxCollider->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	skeletalMeshEnemy->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	SetActorTickEnabled(false);
 
@@ -113,7 +114,7 @@ void ABaseEnemy::SetSplinePath(USplineComponent* spline)
 	float jsue = splinePath->GetSplineLength();
 	FString hola = FString::SanitizeFloat(jsue);
 	GEngine->AddOnScreenDebugMessage(5, 1, FColor::Blue, hola);
-
+	boxCollider->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
 	timeToFinish = splinePath->GetSplineLength() / moveSpeed;
 	timeProgression = 0;
 }

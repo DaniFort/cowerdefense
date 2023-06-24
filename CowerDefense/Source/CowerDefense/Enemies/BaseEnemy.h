@@ -6,6 +6,8 @@
 #include "GameFramework/Pawn.h"
 #include "Math/UnrealMathUtility.h"
 #include "CowerDefense/ObjectPooler/PooledObject.h"
+#include "../CowProperties.h"
+#include "Kismet/ImportanceSamplingLibrary.h"
 
 #include "BaseEnemy.generated.h"
 
@@ -15,13 +17,13 @@ class ASplainMeshActor;
 class UBoxComponent;
 class USplineComponent;
 
-UENUM(NotBlueprintType)
-enum class ElementType : uint8 {
-	None = 0		UMETA(DisplayName = "None"),
-	Fire = 1        UMETA(DisplayName = "Fire"),
-	Water = 2       UMETA(DisplayName = "Water"),
-	Plant = 3		UMETA(DisplayName = "Plant"),
-};
+//UENUM(NotBlueprintType)
+//enum class ElementType : uint8 {
+//	None = 0		UMETA(DisplayName = "None"),
+//	Fire = 1        UMETA(DisplayName = "Fire"),
+//	Water = 2       UMETA(DisplayName = "Water"),
+//	Plant = 3		UMETA(DisplayName = "Plant"),
+//};
 
 UCLASS()
 class COWERDEFENSE_API ABaseEnemy : public APawn , public IPooledObject
@@ -31,6 +33,7 @@ class COWERDEFENSE_API ABaseEnemy : public APawn , public IPooledObject
 public:
 	UPROPERTY(EditDefaultsOnly)
 	float maxHealth;
+	UPROPERTY(VisibleAnywhere)
 	float health;
 	UPROPERTY(EditDefaultsOnly)
 		float damageOnWin{ 30 };
@@ -45,7 +48,9 @@ public:
 	UPROPERTY(EditDefaultsOnly)
 		UBoxComponent* boxCollider = nullptr;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		ElementType Element;
+		EElements Element;
+
+	float GetAlpha() { return alpha;}
 
 protected:
 	UPROPERTY(VisibleAnywhere)
@@ -58,7 +63,8 @@ protected:
 		float timeToFinish;
 	UPROPERTY()
 		bool isAlive;
-
+	UPROPERTY(VisibleAnywhere)
+		float alpha;
 	virtual void BeginPlay() override;
 	void follow_path();
 
@@ -70,7 +76,8 @@ public:
 
 	void ReachEnd();
 
-	void OnGetDamage(float damge);
+	EElements GetElement() const { return Element; }
+	void ReceiveDamage(float damage);
 	//pool
 	virtual void Spawn()override;
 	virtual void Despawn()override;
