@@ -11,7 +11,7 @@
 #include "SelectWidget.generated.h"
 
 class UButton;
-
+class UTextBlock;
 UCLASS()
 class COWERDEFENSE_API USelectWidget : public UUserWidget
 {
@@ -26,6 +26,11 @@ public:
 	UButton* waterTurretButton = nullptr;
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
 	UButton* plantTurretButton = nullptr;
+
+	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
+	UTextBlock* milkText{nullptr};
+	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
+	UTextBlock* killsText{nullptr};
 
 	virtual void NativeConstruct() override;
 
@@ -43,4 +48,9 @@ UFUNCTION()
 	void OnButtonClickWater();
 	UFUNCTION()
 	void OnButtonClickPlant();
+
+	UFUNCTION()
+	void SetMilkText(int amount);
+	UFUNCTION()
+	void SetKillsText(int amount);
 };

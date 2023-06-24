@@ -7,6 +7,7 @@
 
 #include "GameStats.generated.h"
 
+class USelectWidget;
 UCLASS()
 class COWERDEFENSE_API AGameStats : public AActor
 {
@@ -32,8 +33,13 @@ public:
 	UPROPERTY(EditAnywhere)
 	float maxLife{ 100 };
 	float life{ 0 };
+	int totalKills{ 0 };
+	
+	USelectWidget* widgetUI{ nullptr };
+
 
 	void GetDamage(float& damage);
 	bool SpendMoney(float money);
+	void OnKillEnemy();
 
 };

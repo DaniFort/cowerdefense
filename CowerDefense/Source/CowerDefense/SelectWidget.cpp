@@ -5,6 +5,8 @@
 
 #include "CowPlayerController.h"
 #include "Components/Button.h"
+#include "Components/TextBlock.h"
+
 #include "Kismet/GameplayStatics.h"
 
 void USelectWidget::NativeConstruct()
@@ -13,6 +15,7 @@ void USelectWidget::NativeConstruct()
 	fireTurretButton->OnClicked.AddDynamic(this, &USelectWidget::OnButtonClickFire);
 	waterTurretButton->OnClicked.AddDynamic(this, &USelectWidget::OnButtonClickWater);
 	plantTurretButton->OnClicked.AddDynamic(this, &USelectWidget::OnButtonClickPlant);
+
 }
 
 void USelectWidget::OnButtonClickNormal()
@@ -58,5 +61,21 @@ void USelectWidget::OnButtonClickPlant()
 	cowPlayerPC = Cast<ACowPlayerController>(UGameplayStatics::GetPlayerController(GetWorld(),0));
 
 	cowPlayerPC->SetPlayerBool(true, EElements::Plant);
+}
+
+void USelectWidget::SetMilkText(int amount)
+{
+	FString numString = FString::FromInt(amount);
+	FText numText = FText::FromString(numString);
+
+	milkText->SetText(numText);
+}
+
+void USelectWidget::SetKillsText(int amount)
+{
+	FString numString = FString::FromInt(amount);
+	FText numText = FText::FromString(numString);
+
+	killsText->SetText(numText);
 }
 

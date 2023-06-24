@@ -4,6 +4,7 @@
 #include "GameStats.h"
 #include "CowerDefense/GameModes/GameModeLevel1.h"
 #include "CowGameMode.h"
+#include "CowerDefense/SelectWidget.h"
 
 // Sets default values
 AGameStats::AGameStats()
@@ -33,7 +34,16 @@ void AGameStats::BeginPlay()
 	Super::BeginPlay();
 	
     life = maxLife;
-    UE_LOG(LogTemp, Warning, TEXT("HOLA OK"));
+    if (ACowGameMode* gameMode = Cast<ACowGameMode>(GetWorld()->GetAuthGameMode()))
+    {
+        widgetUI=gameMode->GetUIWidget();
+    }
+    if (widgetUI)
+    {
+        widgetUI->SetMilkText(milk);
+        widgetUI->SetKillsText(totalKills);
+
+    }
 }
 
 // Called every frame
@@ -59,6 +69,12 @@ bool AGameStats::SpendMoney(float money)
         return false;
 
     milk -= money;
+    widgetUI->SetMilkText(milk);
     return true;
+}
+void AGameStats::OnKillEnemy()
+{
+    totalKills++;
+    widgetUI->SetKillsText(totalKills);
 }
 
