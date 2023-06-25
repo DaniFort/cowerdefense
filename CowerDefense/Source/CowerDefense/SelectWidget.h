@@ -13,6 +13,7 @@
 class UCanvasPanel;
 class UButton;
 class UTextBlock;
+class UProgressBar;
 
 UCLASS()
 class COWERDEFENSE_API USelectWidget : public UUserWidget
@@ -40,6 +41,13 @@ public:
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
 		UButton* targetCloseButton = nullptr;
 
+	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
+	UTextBlock* milkText{nullptr};
+	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
+	UTextBlock* killsText{nullptr};	
+	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
+	UProgressBar* lifeBar{nullptr};
+
 	virtual void NativeConstruct() override;
 	
 	UPROPERTY(VisibleAnywhere)
@@ -63,4 +71,10 @@ UFUNCTION()
 	void OnButtonClickNext();
 	UFUNCTION()
 	void OnButtonClickClose();
+
+	UFUNCTION()
+	void SetMilkText(int amount);
+	UFUNCTION()
+	void SetKillsText(int amount);
+	void UpdateLifeBar(float percent);
 };

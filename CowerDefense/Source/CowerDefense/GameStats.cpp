@@ -5,6 +5,8 @@
 #include "CowerDefense/GameModes/GameModeLevel1.h"
 #include "CowGameMode.h"
 #include "CowerDefense/SelectWidget.h"
+#include "Engine/World.h"
+
 
 // Sets default values
 AGameStats::AGameStats()
@@ -34,17 +36,9 @@ void AGameStats::BeginPlay()
 	Super::BeginPlay();
 	
     life = maxLife;
-    if (ACowGameMode* gameMode = Cast<ACowGameMode>(GetWorld()->GetAuthGameMode()))
-    {
-        widgetUI=gameMode->GetUIWidget();
-    }
-    if (widgetUI)
-    {
-        widgetUI->SetMilkText(milk);
-        widgetUI->SetKillsText(totalKills);
 
-    }
 }
+
 
 // Called every frame
 void AGameStats::Tick(float DeltaTime)
@@ -53,9 +47,15 @@ void AGameStats::Tick(float DeltaTime)
 
 }
 
-void AGameStats::GetDamage(float& damage)
+void AGameStats::GetDamage(float damage)
 {
     life -= damage;
+    float percent = life  / maxLife;
+    if (ACowGameMode* gameMode = Cast<ACowGameMode>(GetWorld()->GetAuthGameMode()))
+    {
+        USelectWidget* widget = gameMode->GetPlayer()->selectWidgetInstance;
+        widget->UpdateLifeBar(percent);
+    }
     if (life <= 0)
     {
         GEngine->AddOnScreenDebugMessage(5, 2, FColor::Blue, "Has perdido malo");
@@ -69,12 +69,20 @@ bool AGameStats::SpendMoney(float money)
         return false;
 
     milk -= money;
-    widgetUI->SetMilkText(milk);
+    if (ACowGameMode* gameMode = Cast<ACowGameMode>(GetWorld()->GetAuthGameMode()))
+    {
+        USelectWidget* widget = gameMode->GetPlayer()->selectWidgetInstance;
+        widget->SetMilkText(milk);
+    }    
     return true;
 }
 void AGameStats::OnKillEnemy()
 {
     totalKills++;
-    widgetUI->SetKillsText(totalKills);
+    if (ACowGameMode* gameMode = Cast<ACowGameMode>(GetWorld()->GetAuthGameMode()))
+    {
+        USelectWidget* widget = gameMode->GetPlayer()->selectWidgetInstance;
+        widget->SetKillsText(totalKills);
+    }
 }
 

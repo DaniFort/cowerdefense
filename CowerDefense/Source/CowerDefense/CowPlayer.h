@@ -18,6 +18,8 @@ UCLASS()
 class COWERDEFENSE_API ACowPlayer : public APawn
 {
 	GENERATED_BODY()
+private:
+	void PreInitializeComponents()override;
 
 public:
 	// Sets default values for this pawn's properties

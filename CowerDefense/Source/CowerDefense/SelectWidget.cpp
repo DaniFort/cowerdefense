@@ -10,6 +10,10 @@
 #include "Kismet/GameplayStatics.h"
 #include "Turret.h"
 #include "Components/CanvasPanel.h"
+#include "Components/ProgressBar.h"
+
+
+
 
 void USelectWidget::NativeConstruct()
 {
@@ -114,3 +118,23 @@ void USelectWidget::OnButtonClickClose()
 	targetCanvasPanel->SetVisibility(ESlateVisibility::Hidden);
 }
 
+void USelectWidget::SetMilkText(int amount)
+{
+	FString numString = FString::FromInt(amount);
+	FText numText = FText::FromString(numString);
+	UTextBlock* hola = milkText;
+	milkText->SetText(numText);
+}
+
+void USelectWidget::SetKillsText(int amount)
+{
+	FString numString = FString::FromInt(amount);
+	FText numText = FText::FromString(numString);
+
+	killsText->SetText(numText);
+}
+
+void USelectWidget::UpdateLifeBar(float percent)
+{
+	lifeBar->SetPercent(percent);
+}

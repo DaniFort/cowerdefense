@@ -38,8 +38,16 @@ public:
 	USelectWidget* widgetUI{ nullptr };
 
 
-	void GetDamage(float& damage);
+	void GetDamage(float damage);
 	bool SpendMoney(float money);
+	UFUNCTION(CallInEditor)
 	void OnKillEnemy();
+
+	UFUNCTION(CallInEditor)
+		void MONEY() { SpendMoney(20); }
+	UFUNCTION(CallInEditor)
+		void DAMAGE(){ GetDamage(20); }
+	
+
 
 };

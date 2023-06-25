@@ -82,6 +82,10 @@ void ABaseEnemy::ReceiveDamage(float damage)
 	health -= damage;
 	if (health <= 0)
 	{
+		if (ACowGameMode* gameMode = Cast<ACowGameMode>(GetWorld()->GetAuthGameMode()))
+		{
+			gameMode->GetGameStats()->OnKillEnemy();
+		}
 		Despawn();
 	}
 }

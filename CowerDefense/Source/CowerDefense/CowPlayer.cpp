@@ -12,6 +12,9 @@
 #include "Components/CanvasPanel.h"
 #include "Components/TextBlock.h"
 #include "CowerDefense/ObjectPooler/PoolerObjects.h"
+#include "GameStats.h"
+#include "CowGameMode.h"
+
 
 
 // Sets default values
@@ -32,15 +35,24 @@ void ACowPlayer::SetIsPlacingTurret(bool bIsPlacing, EElements elementType)
 	isPlacingTurret = bIsPlacing;
 	turretElement = elementType;
 }
+void ACowPlayer::PreInitializeComponents()
+{
+	if (ACowGameMode* gameMode = Cast<ACowGameMode>(GetWorld()->GetAuthGameMode()))
+	{
+		gameMode->SetPlayer(this);
+	}
+}
 
 // Called when the game starts or when spawned
 void ACowPlayer::BeginPlay()
 {
 	Super::BeginPlay();
-	
 	cowPC->SetShowMouseCursor(true);
 	selectWidgetInstance = CreateWidget<USelectWidget>(GetWorld(), selectWidget);
 	selectWidgetInstance->AddToViewport();
+	
+
+
 	
 	normalTurretInstance =  GetWorld()->SpawnActor<ATurret>(normalTurret, GetActorTransform());
 	normalTurretInstance->SetActorScale3D(FVector(1,1,1));
@@ -177,6 +189,8 @@ void ACowPlayer::SpawnTurret()
 	ACowGameMode* gameMode = Cast<ACowGameMode>(GetWorld()->GetAuthGameMode());
 	APoolerObjects* pool = Cast<APoolerObjects>(gameMode->GetSpawnPool());
 	AActor* newItem = nullptr;
+
+	//bool a = gameMode->GetPlayer()->selectWidgetInstance->SetMilkText(vaca->buyPrice);
 
 	switch (turretElement)
 	{

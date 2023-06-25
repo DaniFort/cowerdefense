@@ -7,8 +7,9 @@
 #include "CowerDefense/ObjectPooler/PoolerObjects.h"
 #include "CowerDefense/GameStats.h"
 #include "CowerDefense/SelectWidget.h"
-#include "CowGameMode.generated.h"
+#include "CowPlayer.h"
 
+#include "CowGameMode.generated.h"
 
 
 UCLASS()
@@ -30,6 +31,9 @@ private:
 
 	USelectWidget* widgetUI{ nullptr };
 
+	ACowPlayer* player{ nullptr };
+	
+
 public:
 
 	APoolerObjects* GetSpawnPool() { return spawnPool; }
@@ -40,5 +44,7 @@ public:
 
 	USelectWidget* GetUIWidget() { return widgetUI; }
 	void SetUIWidget(USelectWidget* widget) { widgetUI = widget; }
-	
+
+	void SetPlayer(ACowPlayer* _player) { player = _player; }
+	ACowPlayer* GetPlayer() { return player; }
 };

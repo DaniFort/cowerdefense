@@ -89,10 +89,7 @@ private:
 		float winMultiplier = 1.5f;
 	UPROPERTY(EditDefaultsOnly, meta = (AllowPrivateAccess))
 		float loseMultiplier = 0.75f;
-	UPROPERTY(EditDefaultsOnly, meta = (AllowPrivateAccess))
-		int buyPrice;
-	UPROPERTY(EditDefaultsOnly, meta = (AllowPrivateAccess))
-		int sellPrice;
+
 	UPROPERTY(EditDefaultsOnly, meta = (AllowPrivateAccess))
 		float maxRange;
 	UPROPERTY(BlueprintReadOnly, meta = (AllowPrivateAccess))
@@ -138,5 +135,8 @@ public:
 	virtual void Spawn()override;
 	virtual void Despawn()override;
 
-
+	UPROPERTY(EditDefaultsOnly, meta = (AllowPrivateAccess))
+		int buyPrice{30};
+	UPROPERTY(EditDefaultsOnly, meta = (AllowPrivateAccess))
+		int sellPrice{30};
 };
