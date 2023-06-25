@@ -6,6 +6,7 @@
 #include "GameFramework/GameModeBase.h"
 #include "CowerDefense/ObjectPooler/PoolerObjects.h"
 #include "CowerDefense/GameStats.h"
+#include "CowerDefense/SelectWidget.h"
 #include "CowGameMode.generated.h"
 
 
@@ -27,6 +28,7 @@ private:
 		nullptr
 	};
 
+	USelectWidget* widgetUI{ nullptr };
 
 public:
 
@@ -35,5 +37,8 @@ public:
 
 	AGameStats* GetGameStats() { return gameStats; }
 	void SetGameStats(AGameStats* stats) { gameStats = stats; }
+
+	USelectWidget* GetUIWidget() { return widgetUI; }
+	void SetUIWidget(USelectWidget* widget) { widgetUI = widget; }
 	
 };
