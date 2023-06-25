@@ -39,6 +39,7 @@ public:
 
 
 	void GetDamage(float damage);
+	float GetMilk() { return milk; }
 	bool SpendMoney(float money);
 	UFUNCTION(CallInEditor)
 	void OnKillEnemy();

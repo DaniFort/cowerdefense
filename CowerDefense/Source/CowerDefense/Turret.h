@@ -2,10 +2,10 @@
 
 #pragma once
 
+#include "CowProperties.h"
+#include "CowerDefense/ObjectPooler/PooledObject.h"
 #include "NiagaraFunctionLibrary.h"
 #include "NiagaraComponent.h"
-#include "CowerDefense/ObjectPooler/PooledObject.h"
-#include "CowProperties.h"
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
@@ -63,6 +63,13 @@ public:
 	UPROPERTY(EditAnywhere,BlueprintReadWrite)
 		UNiagaraComponent* milkBeam;
 
+	float GetAttackPower() { return attackPower; }
+	float GetAttackVelocity() { return attackVelocity; }
+	float GetRange() { return maxRange; }
+	float GetBuyPrice() { return buyPrice; }
+	float GetSellPrice() { return sellPrice; }
+	
+	
 	void SetIsActive(bool bIsActive) { isActive = bIsActive; }
 
 	void ActivateCollision();
@@ -106,6 +113,11 @@ private:
 	UPROPERTY(VisibleAnywhere)
 	ABaseEnemy* enemyToAttack = nullptr;
 	
+	UPROPERTY(EditDefaultsOnly, meta = (AllowPrivateAccess))
+		int buyPrice;
+	UPROPERTY(EditDefaultsOnly, meta = (AllowPrivateAccess))
+		int sellPrice;
+	
 	UFUNCTION()
 	void OnOverlapBegin(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor,
 		class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
@@ -135,8 +147,4 @@ public:
 	virtual void Spawn()override;
 	virtual void Despawn()override;
 
-	UPROPERTY(EditDefaultsOnly, meta = (AllowPrivateAccess))
-		int buyPrice{30};
-	UPROPERTY(EditDefaultsOnly, meta = (AllowPrivateAccess))
-		int sellPrice{30};
 };

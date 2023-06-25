@@ -2,6 +2,8 @@
 
 #include "CowPlayer.h"
 
+#include <string>
+
 #include "SelectWidget.h"
 #include "Turret.h"
 #include "Camera/CameraComponent.h"
@@ -47,36 +49,45 @@ void ACowPlayer::PreInitializeComponents()
 void ACowPlayer::BeginPlay()
 {
 	Super::BeginPlay();
+	cowGM = Cast<ACowGameMode>(GetWorld()->GetAuthGameMode());
+	gameStats = cowGM->GetGameStats();
+	
 	cowPC->SetShowMouseCursor(true);
 	selectWidgetInstance = CreateWidget<USelectWidget>(GetWorld(), selectWidget);
 	selectWidgetInstance->AddToViewport();
 	
-
-
-	
-	normalTurretInstance =  GetWorld()->SpawnActor<ATurret>(normalTurret, GetActorTransform());
+	normalTurretInstance = GetWorld()->SpawnActor<ATurret>(normalTurret, GetActorTransform());
 	normalTurretInstance->SetActorScale3D(FVector(1,1,1));
 	normalTurretInstance->SetActorRotation(FQuat::Identity);
 	normalTurretInstance->SetActorEnableCollision(false);
 	normalTurretInstance->SetIsActive(false);
 
-	fireTurretInstance =  GetWorld()->SpawnActor<ATurret>(fireTurret, GetActorTransform());
+	fireTurretInstance = GetWorld()->SpawnActor<ATurret>(fireTurret, GetActorTransform());
 	fireTurretInstance->SetActorScale3D(FVector(1,1,1));
 	fireTurretInstance->SetActorRotation(FQuat::Identity); 
 	fireTurretInstance->SetActorEnableCollision(false);                                          
 	fireTurretInstance->SetIsActive(false);
 
-	waterTurretInstance =  GetWorld()->SpawnActor<ATurret>(waterTurret, GetActorTransform());
+	waterTurretInstance = GetWorld()->SpawnActor<ATurret>(waterTurret, GetActorTransform());
 	waterTurretInstance->SetActorScale3D(FVector(1,1,1));
 	waterTurretInstance->SetActorRotation(FQuat::Identity); 
 	waterTurretInstance->SetActorEnableCollision(false);                                          
 	waterTurretInstance->SetIsActive(false);
 
-	plantTurretInstance =  GetWorld()->SpawnActor<ATurret>(plantTurret, GetActorTransform());
+	plantTurretInstance = GetWorld()->SpawnActor<ATurret>(plantTurret, GetActorTransform());
 	plantTurretInstance->SetActorScale3D(FVector(1,1,1));
 	plantTurretInstance->SetActorRotation(FQuat::Identity); 
 	plantTurretInstance->SetActorEnableCollision(false);                                          
-	plantTurretInstance->SetIsActive(false);                                                      
+	plantTurretInstance->SetIsActive(false);
+
+	FString floatToText = FString::SanitizeFloat(normalTurretInstance->GetBuyPrice());
+	selectWidgetInstance->normalTurretBuyPrice->SetText(FText::FromString(floatToText));
+	floatToText = FString::SanitizeFloat(fireTurretInstance->GetBuyPrice());
+	selectWidgetInstance->fireTurretBuyPrice->SetText(FText::FromString(floatToText));
+	floatToText = FString::SanitizeFloat(waterTurretInstance->GetBuyPrice());
+	selectWidgetInstance->waterTurretBuyPrice->SetText(FText::FromString(floatToText));
+	floatToText = FString::SanitizeFloat(plantTurretInstance->GetBuyPrice());
+	selectWidgetInstance->plantTurretBuyPrice->SetText(FText::FromString(floatToText));
 }
 
 // Called every frame
@@ -88,22 +99,15 @@ void ACowPlayer::Tick(float DeltaTime)
 	if (isPlacingTurret)
 	{
 		PlaceTurret();
-		selectWidgetInstance->normalTurretButton->SetVisibility(ESlateVisibility::Hidden);
-		selectWidgetInstance->fireTurretButton->SetVisibility(ESlateVisibility::Hidden);
-		selectWidgetInstance->waterTurretButton->SetVisibility(ESlateVisibility::Hidden);
-		selectWidgetInstance->plantTurretButton->SetVisibility(ESlateVisibility::Hidden);
-		
+		selectWidgetInstance->buttonsCanvasPanel->SetVisibility(ESlateVisibility::Hidden);
 	}
 	else
 	{
-		selectWidgetInstance->normalTurretButton->SetVisibility(ESlateVisibility::Visible);
-		selectWidgetInstance->fireTurretButton->SetVisibility(ESlateVisibility::Visible);
-		selectWidgetInstance->waterTurretButton->SetVisibility(ESlateVisibility::Visible);
-		selectWidgetInstance->plantTurretButton->SetVisibility(ESlateVisibility::Visible);
+		selectWidgetInstance->buttonsCanvasPanel->SetVisibility(ESlateVisibility::Visible);
 		normalTurretInstance->SetActorHiddenInGame(true);
-		fireTurretInstance->SetActorHiddenInGame(true);    
-		waterTurretInstance->SetActorHiddenInGame(true);   
-		plantTurretInstance->SetActorHiddenInGame(true);   
+		fireTurretInstance->SetActorHiddenInGame(true);
+		waterTurretInstance->SetActorHiddenInGame(true);
+		plantTurretInstance->SetActorHiddenInGame(true);
 	}
 }
 
@@ -141,34 +145,93 @@ void ACowPlayer::PlaceTurret()
 	mouseLocation *= 5000000.f;
 	worldDirection *= 50000000.f;
 	
-	FCollisionQueryParams traceParams;
+	const FCollisionQueryParams traceParams;
 	GetWorld()->LineTraceSingleByChannel(hit, playerLocation, worldDirection, ECC_Visibility, traceParams);
-	
-	//UE_LOG(LogTemp, Warning, TEXT("%s"), *hit.Location.ToString());
+
+	const FVector turretRaycastDirection; //= FVector(0,0,-100);
 	
 	DrawDebugLine(GetWorld(), playerLocation, worldDirection, FColor::Black, false, 2.f);
 
+	FHitResult turretHit;
+	
 	switch (turretElement)
 	{
 	case 0:
 		normalTurretInstance->SetActorHiddenInGame(false);
 		normalTurretInstance->SetActorLocation(hit.Location);
+		
+		GetWorld()->SweepSingleByChannel(turretHit,normalTurretInstance->GetActorLocation(),turretRaycastDirection, FQuat(), ECC_Visibility, FCollisionShape::MakeSphere(175.f), traceParams);
+		if (turretHit.GetActor()->GetActorLocation().Z == 210.f)
+		{
+			if (gameStats->GetMilk() >= normalTurretInstance->GetBuyPrice())
+			{
+				canPlaceTurret = true;
+			}
+		}
+		else
+		{
+			canPlaceTurret = false;
+		}
+
+		UE_LOG(LogTemp, Warning, TEXT("Objeto seleccionado: %s"), *turretHit.GetActor()->GetName());
+		
+		DrawDebugSphere(GetWorld(),normalTurretInstance->GetActorLocation(), 175.f, 10, FColor::Red, false, 0.1f);
 		break;
 
 	case 1:
 		fireTurretInstance->SetActorHiddenInGame(false);
 		fireTurretInstance->SetActorLocation(hit.Location);
+
+		GetWorld()->SweepSingleByChannel(turretHit,fireTurretInstance->GetActorLocation(),turretRaycastDirection, FQuat(), ECC_Visibility, FCollisionShape::MakeSphere(175.f), traceParams);
+		if (turretHit.GetActor()->GetActorLocation().Z == 210.f)
+		{
+			if (gameStats->GetMilk() >= fireTurretInstance->GetBuyPrice())
+			{
+				canPlaceTurret = true;
+			}
+		}
+		else
+		{
+			canPlaceTurret = false;
+		}
 		break;
 		
 	case 2:
 		waterTurretInstance->SetActorHiddenInGame(false);
 		waterTurretInstance->SetActorLocation(hit.Location);
+
+		GetWorld()->SweepSingleByChannel(turretHit,waterTurretInstance->GetActorLocation(),turretRaycastDirection, FQuat(), ECC_Visibility, FCollisionShape::MakeSphere(175.f), traceParams);
+		if (turretHit.GetActor()->GetActorLocation().Z == 210.f)
+		{
+			if (gameStats->GetMilk() >= waterTurretInstance->GetBuyPrice())
+			{
+				canPlaceTurret = true;
+			}
+		}
+		else
+		{
+			canPlaceTurret = false;
+		}
 		break;
 
 	case 3:
 		plantTurretInstance->SetActorHiddenInGame(false);
 		plantTurretInstance->SetActorLocation(hit.Location);
+
+		GetWorld()->SweepSingleByChannel(turretHit,plantTurretInstance->GetActorLocation(),turretRaycastDirection, FQuat(), ECC_Visibility, FCollisionShape::MakeSphere(175.f), traceParams);
+		if (turretHit.GetActor()->GetActorLocation().Z == 210.f)
+		{
+			if (gameStats->GetMilk() >= plantTurretInstance->GetBuyPrice())
+			{
+				canPlaceTurret = true;
+			}
+		}
+		else
+		{
+			canPlaceTurret = false;
+		}
 		break;
+		
 	}
 	
 	
@@ -176,7 +239,7 @@ void ACowPlayer::PlaceTurret()
 
 void ACowPlayer::SpawnTurret()
 {
-	if (!isPlacingTurret)
+	if (!isPlacingTurret || !canPlaceTurret)
 	{
 		return;
 	}
@@ -184,14 +247,11 @@ void ACowPlayer::SpawnTurret()
 	FTransform tempTransform;
 	tempTransform.SetLocation(hit.Location);
 	tempTransform.SetRotation(FQuat(FRotator(0,0,0)));
-	//ATurret* tempTurret = GetWorld()->SpawnActor<ATurret>(normalTurret, tempTransform);
 
 	ACowGameMode* gameMode = Cast<ACowGameMode>(GetWorld()->GetAuthGameMode());
 	APoolerObjects* pool = Cast<APoolerObjects>(gameMode->GetSpawnPool());
 	AActor* newItem = nullptr;
-
-	//bool a = gameMode->GetPlayer()->selectWidgetInstance->SetMilkText(vaca->buyPrice);
-
+	
 	switch (turretElement)
 	{
 	case 0:
@@ -200,6 +260,7 @@ void ACowPlayer::SpawnTurret()
 		{
 			tempTurret->SetActorEnableCollision(true);
 			tempTurret->ActivateCollision();
+			gameStats->SpendMoney(tempTurret->GetBuyPrice());
 		}
 		break;
 
@@ -209,6 +270,7 @@ void ACowPlayer::SpawnTurret()
 		{
 			tempTurret->SetActorEnableCollision(true);
 			tempTurret->ActivateCollision();
+			gameStats->SpendMoney(tempTurret->GetBuyPrice());
 		}
 		break;
 
@@ -218,7 +280,7 @@ void ACowPlayer::SpawnTurret()
 		{
 			tempTurret->SetActorEnableCollision(true);
 			tempTurret->ActivateCollision();
-
+			gameStats->SpendMoney(tempTurret->GetBuyPrice());
 		}
 		break;
 
@@ -228,12 +290,19 @@ void ACowPlayer::SpawnTurret()
 		{
 			tempTurret->SetActorEnableCollision(true);
 			tempTurret->ActivateCollision();
+			gameStats->SpendMoney(tempTurret->GetBuyPrice());
 		}
 		break;
 	}
 	
 	
 	isPlacingTurret = false;
+}
+
+void ACowPlayer::SellTurret()
+{
+	gameStats->SpendMoney(-selectedTurret->GetSellPrice());
+	selectedTurret->Despawn();
 }
 
 void ACowPlayer::ExitPlaceTurret()
@@ -268,12 +337,10 @@ void ACowPlayer::SelectTurret()
 	FCollisionQueryParams traceParams;
 	GetWorld()->LineTraceSingleByChannel(hit, playerLocation, worldDirection, ECC_Visibility, traceParams);
 	
-	
 
 	if (ATurret* turretSelected = Cast<ATurret>(hit.GetActor()))
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Objeto seleccionado: %s"), *turretSelected->GetName());
-		//DrawDebugLine(GetWorld(), playerLocation, worldDirection, FColor::Black, false, 2.f);
 		selectedTurret = turretSelected;
 		switch (selectedTurret->Target)
 		{
@@ -293,11 +360,35 @@ void ACowPlayer::SelectTurret()
 			selectWidgetInstance->targetText->SetText(FText::FromString("Plant"));
 			break;
 		}
+
+		switch (turretSelected->Element)
+		{
+		case 0:
+			selectWidgetInstance->targetCowTypeText->SetText(FText::FromString("Normal Cow"));
+			break;
+
+		case 1:
+			selectWidgetInstance->targetCowTypeText->SetText(FText::FromString("Fire Cow"));
+			break;
+
+		case 2:
+			selectWidgetInstance->targetCowTypeText->SetText(FText::FromString("Water Cow"));
+			break;
+
+		case 3:
+			selectWidgetInstance->targetCowTypeText->SetText(FText::FromString("Plant Cow"));
+			break;
+		}
+		FString floatToText = "Attack Power-> " + FString::SanitizeFloat(turretSelected->GetAttackPower());
+		selectWidgetInstance->targetCowAttackText->SetText(FText::FromString(floatToText));
+		
+		floatToText = "Attack Velocity-> " + FString::SanitizeFloat(turretSelected->GetAttackVelocity());
+		selectWidgetInstance->targetCowVelocityText->SetText(FText::FromString(floatToText));
+		
+		floatToText = "Attack Range-> " + FString::SanitizeFloat(turretSelected->GetRange());
+		selectWidgetInstance->targetCowRangeText->SetText(FText::FromString(floatToText));
+		
 		selectWidgetInstance->targetCanvasPanel->SetVisibility(ESlateVisibility::Visible);
-	}
-	else
-	{
-		//selectedTurret = nullptr;
 	}
 
 }

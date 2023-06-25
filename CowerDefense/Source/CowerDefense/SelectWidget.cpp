@@ -3,17 +3,12 @@
 
 #include "SelectWidget.h"
 
-#include "CowPlayerController.h"
 #include "Turret.h"
 #include "Components/Button.h"
 #include "Components/TextBlock.h"
 #include "Kismet/GameplayStatics.h"
-#include "Turret.h"
 #include "Components/CanvasPanel.h"
 #include "Components/ProgressBar.h"
-
-
-
 
 void USelectWidget::NativeConstruct()
 {
@@ -25,9 +20,9 @@ void USelectWidget::NativeConstruct()
 	targetPreviousButton->OnClicked.AddDynamic(this, &USelectWidget::OnButtonClickPrevious);
 	targetNextButton->OnClicked.AddDynamic(this, &USelectWidget::OnButtonClickNext);
 	targetCloseButton->OnClicked.AddDynamic(this, &USelectWidget::OnButtonClickClose);
-
+	targetSellButton->OnClicked.AddDynamic(this, &USelectWidget::OnButtonClickSell);
+	
 	cowPlayer = Cast<ACowPlayer>(UGameplayStatics::GetPlayerPawn(GetWorld(),0));
-	//cowPlayerPC = Cast<ACowPlayerController>(UGameplayStatics::GetPlayerController(GetWorld(),0));
 }
 
 void USelectWidget::OnButtonClickNormal()
@@ -116,6 +111,11 @@ void USelectWidget::OnButtonClickNext()
 void USelectWidget::OnButtonClickClose()
 {
 	targetCanvasPanel->SetVisibility(ESlateVisibility::Hidden);
+}
+
+void USelectWidget::OnButtonClickSell()
+{
+	cowPlayer->SellTurret();
 }
 
 void USelectWidget::SetMilkText(int amount)

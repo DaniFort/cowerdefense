@@ -20,7 +20,7 @@ void AGameStats::PreInitializeComponents()
 {
     Super::PreInitializeComponents();
 
-    if (AGameModeLevel1* gameMode = Cast<AGameModeLevel1>(GetWorld()->GetAuthGameMode()))
+    if (AGameModeLevel1* gameMode = Cast<AGameModeLevel1>(GetWorld()->GetAuthGameMode(  )))
     {
         gameMode->SetGameStats(this);
     }

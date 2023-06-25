@@ -86,6 +86,7 @@ void ATurret::PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent
 		UE_LOG(LogTemp, Warning, TEXT("%s"), *PropertyChangedEvent.GetPropertyName().ToString());
 		buyPrice = sellPrice * 1.25f;
 	}
+	
 }
 #endif
 
@@ -102,7 +103,7 @@ void ATurret::EnableCollision()
 
 void ATurret::AttackEnemy()
 {
-	if (timeToAttack <= 0 && !enemiesDetected.IsEmpty())
+	if (timeToAttack <= 0 && !enemiesDetected.IsEmpty() && enemyToAttack != nullptr)
 	{
 		if (enemyToAttack->GetElement() == Element) //Ambos iguales EMPATE == NADA
 		{
@@ -130,6 +131,7 @@ void ATurret::AttackEnemy()
 			enemyToAttack->ReceiveDamage(attackPower * loseMultiplier);
 		}
 		UE_LOG(LogTemp, Warning, TEXT("Atacado"));
+		ShootMilkBeam();
 		timeToAttack = timeToAttackTotal;
 	}
 }
@@ -143,7 +145,6 @@ void ATurret::ActivateCollision()
 void ATurret::BeginPlay()
 {
 	Super::BeginPlay();
-	ShootMilkBeam();
 	sphereCollider->OnComponentBeginOverlap.AddDynamic(this, &ATurret::OnOverlapBegin);
 	sphereCollider->OnComponentEndOverlap.AddDynamic(this, &ATurret::OnOverlapEnd);
 }
@@ -188,7 +189,6 @@ void ATurret::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherA
 	if (ABaseEnemy* enemyBeginHit = Cast<ABaseEnemy>(OtherActor))
 	{
 		enemiesDetected.Add(enemyBeginHit);
-		//UE_LOG(LogTemp, Warning, TEXT("HOLA OK"));
 	}
 }
 
@@ -197,14 +197,14 @@ void ATurret::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherAct
 	if (ABaseEnemy* enemyEndHit = Cast<ABaseEnemy>(OtherActor))
 	{
 		enemiesDetected.Remove(enemyEndHit);
-		UE_LOG(LogTemp, Warning, TEXT("ADIOS OK"));
 	}
 }
 
 void ATurret::ShootMilkBeam()
 {
-	milkBeam->Activate();
-	
+	//milkBeam->Activate();
+	//milkBeam->AddForce(FVector(0,1,0));
+	DrawDebugLine(GetWorld(), shootPoint0->GetComponentLocation(), enemyToAttack->GetActorLocation(), FColor::White, false, .5f, 0, 10.f);
 }
 
 void ATurret::SelectEnemyToAttack()
@@ -214,35 +214,72 @@ void ATurret::SelectEnemyToAttack()
 		return;
 	}
 
-	float maxAlpha = 0;
+	enemyToAttack = nullptr;
+
+	enemiesDetected.Sort([](const ABaseEnemy& enemyA, const ABaseEnemy& enemyB)
+	{
+		return enemyA.GetAlpha() > enemyB.GetAlpha();
+	});
 	
 	switch (Target)
 	{
 	case 0: //First
-		for	(auto enemy : enemiesDetected)
-		{
-			if (enemy->GetAlpha() > maxAlpha)
-			{
-				maxAlpha = enemy->GetAlpha();
-				enemyToAttack = enemy;
-			}
-		}
+		enemyToAttack = enemiesDetected[0];
 		break;
 
 	case 1: //Last
-
+		enemyToAttack = enemiesDetected.Last();
 		break;
 
 	case 2: //Fire
+		for (auto enemy : enemiesDetected)
+		{
+			if (enemy->GetElement() == EElements::Fire)
+			{
+				enemyToAttack = enemy;
+				return;
+			}
+		}
 
+		if (enemyToAttack == nullptr)
+		{
+			enemyToAttack = enemiesDetected[0];
+		}
+		
 		break;
 
 	case 3: //Water
-
+		for (auto enemy : enemiesDetected)
+		{
+			if (enemy->GetElement() == EElements::Water)
+			{
+				enemyToAttack = enemy;
+				return;
+			}
+		}
+		
+		if (enemyToAttack == nullptr)
+		{
+			enemyToAttack = enemiesDetected[0];
+		}
+		
 		break;
 
 	case 4: //Plant
-
+		for (auto enemy : enemiesDetected)
+		{
+			if (enemy->GetElement() == EElements::Plant)
+			{
+				enemyToAttack = enemy;
+				return;
+			}
+		}
+		
+		if (enemyToAttack == nullptr)
+		{
+			enemyToAttack = enemiesDetected[0];
+		}
+		
 		break;
 	}
 

@@ -22,24 +22,48 @@ class COWERDEFENSE_API USelectWidget : public UUserWidget
 
 public:
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
+	UCanvasPanel* buttonsCanvasPanel = nullptr;
+	
+	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
 	UButton* normalTurretButton = nullptr;
+	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
+	UTextBlock* normalTurretBuyPrice = nullptr;
+	
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
 	UButton* fireTurretButton = nullptr;
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
+	UTextBlock* fireTurretBuyPrice = nullptr;
+	
+	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
 	UButton* waterTurretButton = nullptr;
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
+	UTextBlock* waterTurretBuyPrice = nullptr;
+	
+	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
 	UButton* plantTurretButton = nullptr;
-
+	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
+	UTextBlock* plantTurretBuyPrice = nullptr;
+	
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
 		UCanvasPanel* targetCanvasPanel = nullptr;
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
 		UTextBlock* targetText = nullptr;
+	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
+		UTextBlock* targetCowTypeText = nullptr;
+	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
+		UTextBlock* targetCowAttackText = nullptr;
+	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
+		UTextBlock* targetCowVelocityText = nullptr;
+	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
+		UTextBlock* targetCowRangeText = nullptr;
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
 		UButton* targetNextButton = nullptr;;
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
 		UButton* targetPreviousButton = nullptr;
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
 		UButton* targetCloseButton = nullptr;
+	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
+		UButton* targetSellButton = nullptr;
 
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
 	UTextBlock* milkText{nullptr};
@@ -56,7 +80,7 @@ public:
 	UPROPERTY(VisibleAnywhere)
 	ACowPlayerController* cowPlayerPC = nullptr;
 	
-UFUNCTION()
+	UFUNCTION()
 	void OnButtonClickNormal();
 	UFUNCTION()
 	void OnButtonClickFire();
@@ -71,6 +95,8 @@ UFUNCTION()
 	void OnButtonClickNext();
 	UFUNCTION()
 	void OnButtonClickClose();
+	UFUNCTION()
+	void OnButtonClickSell();
 
 	UFUNCTION()
 	void SetMilkText(int amount);

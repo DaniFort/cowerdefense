@@ -50,7 +50,7 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		EElements Element;
 
-	float GetAlpha() { return alpha;}
+	float GetAlpha() const { return alpha;}
 
 protected:
 	UPROPERTY(VisibleAnywhere)

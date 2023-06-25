@@ -9,6 +9,8 @@
 
 #include "CowPlayer.generated.h"
 
+class ACowGameMode;
+class AGameStats;
 class UCameraComponent;
 class USphereComponent;
 class USelectWidget;
@@ -42,7 +44,11 @@ public:
 	UPROPERTY(EditDefaultsOnly) TSubclassOf<ATurret> plantTurret;
 	UPROPERTY(BlueprintReadOnly) ATurret* plantTurretInstance = nullptr;
 
+	UPROPERTY(EditDefaultsOnly) ACowGameMode* cowGM = nullptr;
+	UPROPERTY(EditDefaultsOnly) AGameStats* gameStats = nullptr;
+	
 	virtual void SetIsPlacingTurret(bool bIsPlacing, EElements elementType);
+	void SellTurret();
 
 	ATurret* GetSelectedTurret() { return selectedTurret; }
 	
@@ -54,13 +60,16 @@ private:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 	
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(VisibleAnywhere)
 		bool isPlacingTurret = false;
+	UPROPERTY(VisibleAnywhere)
+		bool canPlaceTurret = false;
 	UPROPERTY(VisibleAnywhere)
 		ATurret* selectedTurret = nullptr;
 	UPROPERTY(EditAnywhere)
 		EElements turretElement;
 
+	
 	UPROPERTY(VisibleAnywhere)
 	ACowPlayerController* cowPC = Cast<ACowPlayerController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
 	
