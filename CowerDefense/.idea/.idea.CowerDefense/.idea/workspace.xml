@@ -9,22 +9,13 @@
   <component name="ChangeListManager">
     <list default="true" id="c8317df7-9fe1-40f7-90ef-adddd75e4d02" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.CowerDefense/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.CowerDefense/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/BP/Player/BP_CowPlayer.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/BP/Player/BP_CowPlayer.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/BP/Turret/BP_BaseTurret.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/BP/Turret/BP_BaseTurret.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Art/Models/Turrets/WaterTurret/M_WaterTurret.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Art/Models/Turrets/WaterTurret/M_WaterTurret.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Content/BP/Turret/Turrets/BP_FireTurret.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/BP/Turret/Turrets/BP_FireTurret.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/BP/Turret/Turrets/BP_PlantTurret.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/BP/Turret/Turrets/BP_PlantTurret.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/BP/Turret/Turrets/BP_TurretNormal.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/BP/Turret/Turrets/BP_TurretNormal.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/BP/Turret/Turrets/BP_WaterTurret.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/BP/Turret/Turrets/BP_WaterTurret.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Map/Level01/L_Level01.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Map/Level01/L_Level01.umap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Widget/SelectTurretWidget.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Widget/SelectTurretWidget.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/CowerDefense/CowPlayer.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/CowerDefense/CowPlayer.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/CowerDefense/CowPlayer.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/CowerDefense/CowPlayer.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/CowerDefense/Enemies/BaseEnemy.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/CowerDefense/Enemies/BaseEnemy.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/CowerDefense/Enemies/BaseEnemy.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/CowerDefense/Enemies/BaseEnemy.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/CowerDefense/SelectWidget.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/CowerDefense/SelectWidget.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/CowerDefense/SelectWidget.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/CowerDefense/SelectWidget.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/CowerDefense/Turret.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/CowerDefense/Turret.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/CowerDefense/Turret.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/CowerDefense/Turret.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -274,6 +265,8 @@
       <workItem from="1687602862909" duration="166000" />
       <workItem from="1687603393309" duration="15253000" />
       <workItem from="1687632608838" duration="57000" />
+      <workItem from="1687648303367" duration="6444000" />
+      <workItem from="1687699176776" duration="1008000" />
     </task>
     <servers />
   </component>

@@ -40,9 +40,10 @@ public:
 	UPROPERTY(EditDefaultsOnly) TSubclassOf<ATurret> plantTurret;
 	UPROPERTY(BlueprintReadOnly) ATurret* plantTurretInstance = nullptr;
 
-	virtual void SetIsPlacingTurret(bool bIsPlacing, EElements elementType);
-
 	ATurret* GetSelectedTurret() { return selectedTurret; }
+
+	virtual void SetIsPlacingTurret(bool bIsPlacing, EElements elementType);
+	void SelectTurret();
 	
 protected:
 	// Called when the game starts or when spawned
@@ -70,5 +71,4 @@ private:
 	void PlaceTurret();
 	void SpawnTurret();
 	void ExitPlaceTurret();
-	void SelectTurret();
 };

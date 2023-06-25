@@ -153,7 +153,7 @@ void ATurret::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	SelectEnemyToAttack();
+	//SelectEnemyToAttack();
 	if (!enemiesDetected.IsEmpty() && enemiesDetected[0] != nullptr)
 	{
 		RotateTowardsEnemy();
@@ -188,7 +188,7 @@ void ATurret::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherA
 	if (ABaseEnemy* enemyBeginHit = Cast<ABaseEnemy>(OtherActor))
 	{
 		enemiesDetected.Add(enemyBeginHit);
-		//UE_LOG(LogTemp, Warning, TEXT("HOLA OK"));
+		SelectEnemyToAttack();
 	}
 }
 
@@ -197,7 +197,7 @@ void ATurret::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherAct
 	if (ABaseEnemy* enemyEndHit = Cast<ABaseEnemy>(OtherActor))
 	{
 		enemiesDetected.Remove(enemyEndHit);
-		UE_LOG(LogTemp, Warning, TEXT("ADIOS OK"));
+		SelectEnemyToAttack();
 	}
 }
 
@@ -215,7 +215,7 @@ void ATurret::SelectEnemyToAttack()
 	}
 
 	float maxAlpha = 0;
-	
+	float minAlpha = 1;
 	switch (Target)
 	{
 	case 0: //First
@@ -230,19 +230,66 @@ void ATurret::SelectEnemyToAttack()
 		break;
 
 	case 1: //Last
-
+		for	(auto enemy : enemiesDetected)
+		{
+			if (enemy->GetAlpha() < minAlpha)
+			{
+				minAlpha = enemy->GetAlpha();
+				enemyToAttack = enemy;
+			}
+		}
 		break;
 
 	case 2: //Fire
+		for	(auto enemy : enemiesDetected)
+		{
+			if (enemy->GetAlpha() > maxAlpha && enemy->GetElement() == EElements::Fire)
+			{
+				maxAlpha = enemy->GetAlpha();
+				enemyToAttack = enemy;
+			}
 
+			for	(auto enemy2 : enemiesDetected)
+			{
+				if (enemy2 != enemyToAttack)
+				{
+					maxAlpha = enemy->GetAlpha();
+					enemyToAttack = enemy;
+				}
+			}
+		}
 		break;
 
 	case 3: //Water
-
+		for	(auto enemy : enemiesDetected)
+		{
+			if (enemy->GetAlpha() > maxAlpha && enemy->GetElement() == EElements::Water)
+			{
+				maxAlpha = enemy->GetAlpha();
+				enemyToAttack = enemy;
+			}
+			else if (enemy->GetAlpha() > maxAlpha)
+			{
+				maxAlpha = enemy->GetAlpha();
+				enemyToAttack = enemy;
+			}
+		}
 		break;
 
 	case 4: //Plant
-
+		for	(auto enemy : enemiesDetected)
+		{
+			if (enemy->GetAlpha() > maxAlpha && enemy->GetElement() == EElements::Plant)
+			{
+				maxAlpha = enemy->GetAlpha();
+				enemyToAttack = enemy;
+			}
+			else if (enemy->GetAlpha() > maxAlpha)
+			{
+				maxAlpha = enemy->GetAlpha();
+				enemyToAttack = enemy;
+			}
+		}
 		break;
 	}
 

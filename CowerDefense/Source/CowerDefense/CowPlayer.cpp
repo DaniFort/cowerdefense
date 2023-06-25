@@ -281,10 +281,5 @@ void ACowPlayer::SelectTurret()
 		}
 		selectWidgetInstance->targetCanvasPanel->SetVisibility(ESlateVisibility::Visible);
 	}
-	else
-	{
-		//selectedTurret = nullptr;
-	}
-
 }
 

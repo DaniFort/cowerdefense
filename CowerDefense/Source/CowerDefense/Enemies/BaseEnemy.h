@@ -76,7 +76,7 @@ public:
 
 	void ReachEnd();
 
-	EElements GetElement() const { return Element; }
+	EElements GetElement() { return Element; }
 	void ReceiveDamage(float damage);
 	//pool
 	virtual void Spawn()override;

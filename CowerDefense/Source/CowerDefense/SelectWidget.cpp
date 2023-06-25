@@ -76,6 +76,8 @@ void USelectWidget::OnButtonClickPrevious()
 		targetText->SetText(FText::FromString("Water"));
 		break;
 	}
+
+	cowPlayer->SelectTurret();
 }
 
 void USelectWidget::OnButtonClickNext()
@@ -84,6 +86,7 @@ void USelectWidget::OnButtonClickNext()
 	{
 		return;
 	}
+	
 	switch (cowPlayer->GetSelectedTurret()->Target)
 	{
 	case 0:
@@ -107,6 +110,7 @@ void USelectWidget::OnButtonClickNext()
 		targetText->SetText(FText::FromString("First"));
 		break;
 	}
+	cowPlayer->SelectTurret();
 }
 
 void USelectWidget::OnButtonClickClose()
