@@ -67,6 +67,8 @@ public:
 		UButton* targetSellButton = nullptr;
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
 		UButton* startWaveButton = nullptr;
+	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
+		UButton* goMenuButton = nullptr;
 
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
 	UTextBlock* milkText{nullptr};

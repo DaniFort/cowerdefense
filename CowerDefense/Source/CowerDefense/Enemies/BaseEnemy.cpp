@@ -148,7 +148,7 @@ void ABaseEnemy::SetSplinePath(USplineComponent* spline)
 	splinePath = spline;
 	float jsue = splinePath->GetSplineLength();
 	FString hola = FString::SanitizeFloat(jsue);
-	GEngine->AddOnScreenDebugMessage(5, 1, FColor::Blue, hola);
+	//GEngine->AddOnScreenDebugMessage(5, 1, FColor::Blue, hola);
 	boxCollider->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
 	timeToFinish = splinePath->GetSplineLength() / moveSpeed;
 	timeProgression = 0;

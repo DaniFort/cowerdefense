@@ -25,6 +25,8 @@ void USelectWidget::NativeConstruct()
 	targetCloseButton->OnClicked.AddDynamic(this, &USelectWidget::OnButtonClickClose);
 	targetSellButton->OnClicked.AddDynamic(this, &USelectWidget::OnButtonClickSell);
 	startWaveButton->OnClicked.AddDynamic(this, &USelectWidget::StartWave);
+	goMenuButton->OnClicked.AddDynamic(this, &USelectWidget::GOMenu);
+	goMenuButton->SetVisibility(ESlateVisibility::Hidden);
 	
 	cowPlayer = Cast<ACowPlayer>(UGameplayStatics::GetPlayerPawn(GetWorld(),0));
 	StoreWidgetAnimations();
@@ -200,8 +202,8 @@ void USelectWidget::StoreWidgetAnimations()
 
 void USelectWidget::GOMenu()
 {
-	
-	//UGameplayStatics
+	FName menuName = "MainMenu";
+	UGameplayStatics::OpenLevel(GetWorld(), menuName);
 }
 
 UWidgetAnimation* USelectWidget::GetAnimationByName(FName AnimationName)const
@@ -221,6 +223,7 @@ void USelectWidget::WinGame()
 }
 void USelectWidget::OnLoseGame()
 {
+	goMenuButton->SetVisibility(ESlateVisibility::Visible);
 	winOrLoseText->SetText(FText::FromString("YOU LOSE"));
 	PlayAnimation(winOrLoseAnimation);
 }
