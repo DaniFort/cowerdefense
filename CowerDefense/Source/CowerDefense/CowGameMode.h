@@ -8,6 +8,7 @@
 #include "CowerDefense/GameStats.h"
 #include "CowerDefense/SelectWidget.h"
 #include "CowPlayer.h"
+#include "Wavemanager.h"
 
 #include "CowGameMode.generated.h"
 
@@ -32,6 +33,7 @@ private:
 	USelectWidget* widgetUI{ nullptr };
 
 	ACowPlayer* player{ nullptr };
+	AWaveManager* waveManager{ nullptr };
 	
 
 public:
@@ -47,4 +49,7 @@ public:
 
 	void SetPlayer(ACowPlayer* _player) { player = _player; }
 	ACowPlayer* GetPlayer() { return player; }
+
+	void SetWaveManager(AWaveManager* _player) { waveManager = _player; }
+	AWaveManager* GetWaveManager() { return waveManager; }
 };

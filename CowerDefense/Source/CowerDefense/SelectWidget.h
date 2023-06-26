@@ -7,6 +7,8 @@
 #include "CowPlayer.h"
 #include "CowPlayerController.h"
 #include "CowProperties.h"
+#include "Containers/Map.h"
+
 
 #include "SelectWidget.generated.h"
 
@@ -14,6 +16,7 @@ class UCanvasPanel;
 class UButton;
 class UTextBlock;
 class UProgressBar;
+class UWidgetAnimation;
 
 UCLASS()
 class COWERDEFENSE_API USelectWidget : public UUserWidget
@@ -64,6 +67,8 @@ public:
 		UButton* targetCloseButton = nullptr;
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
 		UButton* targetSellButton = nullptr;
+	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
+		UButton* startWaveButton = nullptr;
 
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
 	UTextBlock* milkText{nullptr};
@@ -71,6 +76,12 @@ public:
 	UTextBlock* killsText{nullptr};	
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
 	UProgressBar* lifeBar{nullptr};
+	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
+	UTextBlock* waveText {nullptr};
+
+	int currentWave{ 0 };
+
+
 
 	virtual void NativeConstruct() override;
 	
@@ -103,4 +114,19 @@ public:
 	UFUNCTION()
 	void SetKillsText(int amount);
 	void UpdateLifeBar(float percent);
+	UFUNCTION(BlueprintCallable)
+	void SetWaveText();
+	void NextWave();
+	UFUNCTION()
+	void StartWave();
+	
+	//Animation
+	UWidgetAnimation* nextWaveAnimation;
+	TMap<FName, UWidgetAnimation*>AnimationMap;
+
+	UWidgetAnimation* GetAnimationByName(FName AnimationName)const;
+	void StoreWidgetAnimations();
+
+
+
 };

@@ -42,6 +42,7 @@ protected:
 
 public:	
 	// Called every frame
+	void PreInitializeComponents()override;
 	virtual void Tick(float DeltaTime) override;
 
 	//variables
@@ -65,6 +66,7 @@ public:
 	int currentWave{ 0 };
 
 	float elapsedTime{ 0 };
+	bool inGame{ false };
 
 	UPROPERTY(EditAnywhere)
 	FVector initPosition;

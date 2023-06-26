@@ -6,6 +6,8 @@
 #include "Components/SplineComponent.h"
 #include "CowerDefense/Enemies/BaseEnemy.h"
 #include "CowGameMode.h"
+#include "Components/Button.h"
+
 
 #include "CowerDefense/ObjectPooler/PoolerObjects.h"
 
@@ -16,7 +18,13 @@ AWaveManager::AWaveManager()
 	PrimaryActorTick.bCanEverTick = true;
 
 }
-
+void AWaveManager::PreInitializeComponents()
+{
+	if (ACowGameMode* gameMode = Cast<ACowGameMode>(GetWorld()->GetAuthGameMode()))
+	{
+		gameMode->SetWaveManager(this);
+	}
+}
 // Called when the game starts or when spawned
 void AWaveManager::BeginPlay()
 {
@@ -53,7 +61,15 @@ void AWaveManager::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 	elapsedTime -= GetWorld()->GetDeltaSeconds();
-
+	if (!inGame&& elapsedTime <= 3)
+	{
+		if (ACowGameMode* gameMode = Cast<ACowGameMode>(GetWorld()->GetAuthGameMode()))
+		{
+			USelectWidget* widget = gameMode->GetUIWidget();
+			widget->NextWave();
+		}
+		inGame = true;
+	}
 	if (elapsedTime <= 0)
 	{
 		SpawnEnemy();
@@ -75,6 +91,7 @@ void AWaveManager::SpawnEnemy()
 	if (ABaseEnemy* enemyPath = Cast<ABaseEnemy>(newEnemy))
 	{
 		enemyPath->SetSplinePath(splinePath);
+		
 	}
 
 	elapsedTime = runingWave->enemyOrder[runingWave->currentEnemy].Y;
@@ -95,6 +112,7 @@ void AWaveManager::SpawnEnemy()
 void AWaveManager::StartWave()
 {
 	SetActorTickEnabled(true);
+	inGame = true;
 }
 
 
@@ -104,12 +122,13 @@ void AWaveManager::NextWave()
 	if (currentWave >= waveOrder.Num())
 	{
 		SetActorTickEnabled(false);
+
 	}
 	else
 	{
-		//fin juego 
+		inGame = false;
+		
 	}
-	GEngine->AddOnScreenDebugMessage(5, elapsedTime, FColor::Orange, "NEXT WAVE");
 	//meter texto por ptantalla
 	//cosas de texto y esas cosas
 }

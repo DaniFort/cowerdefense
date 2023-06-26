@@ -26,6 +26,7 @@ void AGameStats::PreInitializeComponents()
     }
     if (ACowGameMode* gameMode = Cast<ACowGameMode>(GetWorld()->GetAuthGameMode()))
     {
+        
         gameMode->SetGameStats(this);
     }
 }
