@@ -15,6 +15,7 @@ class UCameraComponent;
 class USphereComponent;
 class USelectWidget;
 class ATurret;
+class USpringArmComponent;
 
 UCLASS()
 class COWERDEFENSE_API ACowPlayer : public APawn
@@ -29,6 +30,8 @@ public:
 
 	UPROPERTY(EditDefaultsOnly)
 	UCameraComponent* firstPersonCamera = nullptr;
+	UPROPERTY(EditDefaultsOnly)
+	USpringArmComponent* springArm = nullptr;
 	UPROPERTY(EditDefaultsOnly)
 	USphereComponent* playerCollider = nullptr;
 	
@@ -68,6 +71,11 @@ private:
 		ATurret* selectedTurret = nullptr;
 	UPROPERTY(EditAnywhere)
 		EElements turretElement;
+	UPROPERTY(EditAnywhere,meta = (AllowPrivateAccess = true))
+		float camSpeed{ 15 };
+	UPROPERTY(EditAnywhere, meta = (AllowPrivateAccess = true))
+		float speedRot{5};
+	
 
 	
 	UPROPERTY(VisibleAnywhere)
@@ -77,7 +85,9 @@ private:
 	
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-	void Move(float horizontalMovement);
+	void MoveHorizontal(float horizontalMovement);
+	void MoveVertical(float verticalMovement);
+	void RotateHorizontal(float horizontalRot);
 	void PlaceTurret();
 	void SpawnTurret();
 	void ExitPlaceTurret();

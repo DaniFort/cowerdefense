@@ -16,6 +16,8 @@
 #include "CowerDefense/ObjectPooler/PoolerObjects.h"
 #include "GameStats.h"
 #include "CowGameMode.h"
+#include "GameFramework/SpringArmComponent.h"
+
 
 
 
@@ -25,8 +27,11 @@ ACowPlayer::ACowPlayer()
 	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+	springArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("springArm"));
+	springArm->SetupAttachment(RootComponent);
+
 	firstPersonCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("First Person Camera"));
-	firstPersonCamera->SetupAttachment(RootComponent);
+	firstPersonCamera->SetupAttachment(springArm);
 
 	playerCollider = CreateDefaultSubobject<USphereComponent>(TEXT("Sphere Collider"));
 	playerCollider->SetupAttachment(RootComponent);
@@ -51,6 +56,7 @@ void ACowPlayer::BeginPlay()
 	Super::BeginPlay();
 	cowGM = Cast<ACowGameMode>(GetWorld()->GetAuthGameMode());
 	gameStats = cowGM->GetGameStats();
+
 	
 	cowPC->SetShowMouseCursor(true);
 	selectWidgetInstance = CreateWidget<USelectWidget>(GetWorld(), selectWidget);
@@ -116,20 +122,34 @@ void ACowPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
-	InputComponent->BindAxis("Horizontal", this, &ACowPlayer::Move);
+	InputComponent->BindAxis("Horizontal", this, &ACowPlayer::MoveHorizontal);
+	InputComponent->BindAxis("Vertical", this, &ACowPlayer::MoveVertical);
+	InputComponent->BindAxis("HorizontalRotation", this, &ACowPlayer::RotateHorizontal);
+	
 	InputComponent->BindAction("LeftClick", IE_Pressed, this, &ACowPlayer::SpawnTurret);
 	InputComponent->BindAction("LeftClick", IE_Pressed, this, &ACowPlayer::SelectTurret);
 	InputComponent->BindAction("RightClick", IE_Pressed, this, &ACowPlayer::ExitPlaceTurret);
 }
 
-void ACowPlayer::Move(float horizontalMovement)
+
+
+void ACowPlayer::MoveHorizontal(float horizontalMovement)
 {
-	
-	if (horizontalMovement > 0.f)
-	{
-		UE_LOG(LogTemp, Log, TEXT("horizontal"));
-	}
+	AddActorLocalOffset(FVector::RightVector * horizontalMovement * camSpeed);
 }
+
+void ACowPlayer::MoveVertical(float verticalMovement)
+{
+	AddActorLocalOffset(FVector::ForwardVector * verticalMovement * camSpeed);
+}
+
+void ACowPlayer::RotateHorizontal(float horizontalRot)
+{
+	AddActorLocalRotation(FRotator(0.0f, horizontalRot * speedRot, 0.0f));
+}
+
+
+
 
 void ACowPlayer::PlaceTurret()
 {
