@@ -29,6 +29,7 @@ void USelectWidget::NativeConstruct()
 	cowPlayer = Cast<ACowPlayer>(UGameplayStatics::GetPlayerPawn(GetWorld(),0));
 	StoreWidgetAnimations();
 	nextWaveAnimation = GetAnimationByName(TEXT("nextWaveAnim"));
+	nextWaveAnimation = GetAnimationByName(TEXT("winOrLoseAnimation"));
 	if (ACowGameMode* gameMode = Cast<ACowGameMode>(GetWorld()->GetAuthGameMode()))
 	{
 
@@ -206,4 +207,14 @@ UWidgetAnimation* USelectWidget::GetAnimationByName(FName AnimationName)const
 	}
 	
 	return nullptr;
+}
+void USelectWidget::WinGame()
+{
+	winOrLoseText->SetText(FText::FromString("YOU WIN"));
+	PlayAnimation(winOrLoseAnimation);
+}
+void USelectWidget::OnLoseGame()
+{
+	winOrLoseText->SetText(FText::FromString("YOU LOSE"));
+	PlayAnimation(winOrLoseAnimation);
 }

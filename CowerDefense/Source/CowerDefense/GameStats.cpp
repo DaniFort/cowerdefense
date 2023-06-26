@@ -56,10 +56,10 @@ void AGameStats::GetDamage(float damage)
     {
         USelectWidget* widget = gameMode->GetPlayer()->selectWidgetInstance;
         widget->UpdateLifeBar(percent);
-    }
-    if (life <= 0)
-    {
-        GEngine->AddOnScreenDebugMessage(5, 2, FColor::Blue, "Has perdido malo");
+        if (life <= 0)
+        {
+            widget->OnLoseGame();
+        }
     }
 
 }
@@ -87,6 +87,13 @@ void AGameStats::OnKillEnemy()
         USelectWidget* widget = gameMode->GetPlayer()->selectWidgetInstance;
         widget->SetKillsText(totalKills);
         widget->SetMilkText(milk);
+    }
+    if (totalKills >= totalEnemies)
+    {
+        if (ACowGameMode* gameMode = Cast<ACowGameMode>(GetWorld()->GetAuthGameMode()))
+        {
+            gameMode->GetUIWidget()->WinGame();
+        }
     }
 }
 

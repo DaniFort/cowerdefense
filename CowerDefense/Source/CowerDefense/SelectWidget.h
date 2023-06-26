@@ -78,6 +78,8 @@ public:
 	UProgressBar* lifeBar{nullptr};
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
 	UTextBlock* waveText {nullptr};
+	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
+	UTextBlock* winOrLoseText {nullptr};
 
 	int currentWave{ 0 };
 
@@ -119,9 +121,12 @@ public:
 	void NextWave();
 	UFUNCTION()
 	void StartWave();
+	void WinGame();
+	void OnLoseGame();
 	
 	//Animation
 	UWidgetAnimation* nextWaveAnimation;
+	UWidgetAnimation* winOrLoseAnimation;
 	TMap<FName, UWidgetAnimation*>AnimationMap;
 
 	UWidgetAnimation* GetAnimationByName(FName AnimationName)const;

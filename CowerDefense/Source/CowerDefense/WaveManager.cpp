@@ -52,7 +52,16 @@ void AWaveManager::BeginPlay()
 		splinePath = spline;
 	}
 
-
+	//enemigos totales
+	int totalEnemies = 0;
+	for (int i = 0; i < waveOrder.Num(); i++)
+	{
+		totalEnemies += waveOrder[i].enemyOrder.Num();
+	}
+	if (ACowGameMode* gameMode = Cast<ACowGameMode>(GetWorld()->GetAuthGameMode()))
+	{
+		gameMode->GetGameStats()->totalEnemies = totalEnemies;
+	}
 }
 
 // Called every frame

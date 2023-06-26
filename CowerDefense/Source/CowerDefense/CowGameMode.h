@@ -52,4 +52,6 @@ public:
 
 	void SetWaveManager(AWaveManager* _player) { waveManager = _player; }
 	AWaveManager* GetWaveManager() { return waveManager; }
+
+
 };
