@@ -7,6 +7,8 @@
 #include "CowerDefense/CowGameMode.h"
 
 #include "Components/BoxComponent.h"
+#include "NiagaraComponent.h"
+
 
 // Sets default values
 ABaseEnemy::ABaseEnemy()
@@ -30,11 +32,15 @@ void ABaseEnemy::BeginPlay()
 {
 	Super::BeginPlay();
 
-	if (!splinePath)
-		return;
+	GetComponents<UNiagaraComponent>(NiagaraComponents);
+	for (int i = 0; i < NiagaraComponents.Num(); i++)
+	{
+		NiagaraComponents[i]->SetActive(false);
+	}
 	isAlive = true;
 	health = maxHealth;
-
+	if (!splinePath)
+		return;
 }
 
 // Called every frame
@@ -100,6 +106,28 @@ void ABaseEnemy::Spawn()
 	SetActorTickEnabled(true);
 	health = maxHealth;
 
+	int randElement = FMath::RandRange(0, 3);
+	switch(randElement)
+	{
+	case 0:
+		Element = EElements::None;
+		break;
+	case 1:
+		Element = EElements::Water;
+		NiagaraComponents[0]->SetActive(true);
+		break;
+	case 2:
+		Element = EElements::Plant;
+		NiagaraComponents[1]->SetActive(true);
+		break;
+	case 3:
+		Element = EElements::Fire;
+		NiagaraComponents[2]->SetActive(true);
+		break;
+	default:
+		Element = EElements::None;
+		break;
+	}
 
 }
 void ABaseEnemy::Despawn()
@@ -109,7 +137,10 @@ void ABaseEnemy::Despawn()
 	boxCollider->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	skeletalMeshEnemy->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	SetActorTickEnabled(false);
-
+	for (int i = 0; i < NiagaraComponents.Num(); i++)
+	{
+		NiagaraComponents[i]->SetActive(false);
+	}
 }
 
 void ABaseEnemy::SetSplinePath(USplineComponent* spline)

@@ -16,6 +16,8 @@ class USkeletalMeshComponent;
 class ASplainMeshActor;
 class UBoxComponent;
 class USplineComponent;
+class UNiagaraComponent;
+
 
 //UENUM(NotBlueprintType)
 //enum class ElementType : uint8 {
@@ -50,6 +52,8 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		EElements Element;
 
+	UPROPERTY(EditAnywhere)
+		TArray<UNiagaraComponent*> NiagaraComponents;
 	float GetAlpha() const { return alpha;}
 
 protected:
