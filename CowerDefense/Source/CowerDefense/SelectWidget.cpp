@@ -29,7 +29,7 @@ void USelectWidget::NativeConstruct()
 	cowPlayer = Cast<ACowPlayer>(UGameplayStatics::GetPlayerPawn(GetWorld(),0));
 	StoreWidgetAnimations();
 	nextWaveAnimation = GetAnimationByName(TEXT("nextWaveAnim"));
-	nextWaveAnimation = GetAnimationByName(TEXT("winOrLoseAnimation"));
+	winOrLoseAnimation = GetAnimationByName(TEXT("winOrLoseAnimation"));
 	if (ACowGameMode* gameMode = Cast<ACowGameMode>(GetWorld()->GetAuthGameMode()))
 	{
 
