@@ -9,6 +9,9 @@
 #include "Kismet/GameplayStatics.h"
 #include "Components/CanvasPanel.h"
 #include "Components/ProgressBar.h"
+#include "Animation/WidgetAnimation.h"
+#include "CowGameMode.h"
+
 
 void USelectWidget::NativeConstruct()
 {
@@ -21,8 +24,17 @@ void USelectWidget::NativeConstruct()
 	targetNextButton->OnClicked.AddDynamic(this, &USelectWidget::OnButtonClickNext);
 	targetCloseButton->OnClicked.AddDynamic(this, &USelectWidget::OnButtonClickClose);
 	targetSellButton->OnClicked.AddDynamic(this, &USelectWidget::OnButtonClickSell);
+	startWaveButton->OnClicked.AddDynamic(this, &USelectWidget::StartWave);
 	
 	cowPlayer = Cast<ACowPlayer>(UGameplayStatics::GetPlayerPawn(GetWorld(),0));
+	StoreWidgetAnimations();
+	nextWaveAnimation = GetAnimationByName(TEXT("nextWaveAnim"));
+	nextWaveAnimation = GetAnimationByName(TEXT("winOrLoseAnimation"));
+	if (ACowGameMode* gameMode = Cast<ACowGameMode>(GetWorld()->GetAuthGameMode()))
+	{
+
+		gameMode->SetUIWidget(this);
+	}
 }
 
 void USelectWidget::OnButtonClickNormal()
@@ -137,4 +149,72 @@ void USelectWidget::SetKillsText(int amount)
 void USelectWidget::UpdateLifeBar(float percent)
 {
 	lifeBar->SetPercent(percent);
+}
+void USelectWidget::StartWave()
+{
+	if (ACowGameMode* gameMode = Cast<ACowGameMode>(GetWorld()->GetAuthGameMode()))
+	{
+		gameMode->GetWaveManager()->StartWave();
+	}
+	startWaveButton->SetVisibility(ESlateVisibility::Hidden);
+	startWaveButton->SetIsEnabled(false);
+	NextWave();
+}
+
+void USelectWidget::NextWave()
+{
+	currentWave++;
+	PlayAnimation(nextWaveAnimation);
+}
+
+void USelectWidget::SetWaveText()
+{
+	waveText->SetText(FText::FromString(FString::Printf(TEXT("Wave %d"), currentWave)));
+}
+
+void USelectWidget::StoreWidgetAnimations()
+{
+	AnimationMap.Empty();
+	UProperty* prop = GetClass()->PropertyLink;
+
+	while (prop)
+	{
+		if (prop->GetClass() == UObjectProperty::StaticClass())
+		{
+			UObjectProperty* objProp = Cast<UObjectProperty>(prop);
+
+			if (objProp->PropertyClass == UWidgetAnimation::StaticClass())
+			{
+				UObject* obj = objProp->GetObjectPropertyValue_InContainer(this);
+				UWidgetAnimation* widgetAnimation = Cast<UWidgetAnimation>(obj);
+				if (widgetAnimation && widgetAnimation->MovieScene)
+				{
+					FName animname = widgetAnimation->MovieScene->GetFName();
+					AnimationMap.Add(animname, widgetAnimation);
+				}
+			}
+		}
+		prop = prop->PropertyLinkNext;
+	}
+}
+
+UWidgetAnimation* USelectWidget::GetAnimationByName(FName AnimationName)const
+{
+	UWidgetAnimation* const* widgetAnimation = AnimationMap.Find(AnimationName);
+	if (widgetAnimation)
+	{
+		return *widgetAnimation;
+	}
+	
+	return nullptr;
+}
+void USelectWidget::WinGame()
+{
+	winOrLoseText->SetText(FText::FromString("YOU WIN"));
+	PlayAnimation(winOrLoseAnimation);
+}
+void USelectWidget::OnLoseGame()
+{
+	winOrLoseText->SetText(FText::FromString("YOU LOSE"));
+	PlayAnimation(winOrLoseAnimation);
 }

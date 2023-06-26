@@ -34,6 +34,7 @@ public:
 	float maxLife{ 100 };
 	float life{ 0 };
 	int totalKills{ 0 };
+	int totalEnemies{ 0 };
 	
 	USelectWidget* widgetUI{ nullptr };
 
