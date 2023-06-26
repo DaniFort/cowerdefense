@@ -6,9 +6,7 @@
 #include "Blueprint/UserWidget.h"
 #include "CowPlayer.h"
 #include "CowPlayerController.h"
-#include "CowProperties.h"
 #include "Containers/Map.h"
-
 
 #include "SelectWidget.generated.h"
 
@@ -82,9 +80,7 @@ public:
 	UTextBlock* winOrLoseText {nullptr};
 
 	int currentWave{ 0 };
-
-
-
+	
 	virtual void NativeConstruct() override;
 	
 	UPROPERTY(VisibleAnywhere)
@@ -132,6 +128,8 @@ public:
 	UWidgetAnimation* GetAnimationByName(FName AnimationName)const;
 	void StoreWidgetAnimations();
 
+	UFUNCTION()
+	void GOMenu();
 
 
 };

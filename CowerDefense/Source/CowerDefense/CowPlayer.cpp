@@ -2,24 +2,16 @@
 
 #include "CowPlayer.h"
 
-#include <string>
-
 #include "SelectWidget.h"
 #include "Turret.h"
 #include "Camera/CameraComponent.h"
-#include "Components/Button.h"
 #include "Components/SphereComponent.h"
-#include "Turret.h"
 #include "CowGameMode.h"
 #include "Components/CanvasPanel.h"
 #include "Components/TextBlock.h"
 #include "CowerDefense/ObjectPooler/PoolerObjects.h"
 #include "GameStats.h"
-#include "CowGameMode.h"
 #include "GameFramework/SpringArmComponent.h"
-
-
-
 
 // Sets default values
 ACowPlayer::ACowPlayer()
@@ -56,7 +48,6 @@ void ACowPlayer::BeginPlay()
 	Super::BeginPlay();
 	cowGM = Cast<ACowGameMode>(GetWorld()->GetAuthGameMode());
 	gameStats = cowGM->GetGameStats();
-
 	
 	cowPC->SetShowMouseCursor(true);
 	selectWidgetInstance = CreateWidget<USelectWidget>(GetWorld(), selectWidget);
@@ -131,8 +122,6 @@ void ACowPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent
 	InputComponent->BindAction("RightClick", IE_Pressed, this, &ACowPlayer::ExitPlaceTurret);
 }
 
-
-
 void ACowPlayer::MoveHorizontal(float horizontalMovement)
 {
 	AddActorLocalOffset(FVector::RightVector * horizontalMovement * camSpeed);
@@ -147,9 +136,6 @@ void ACowPlayer::RotateHorizontal(float horizontalRot)
 {
 	AddActorLocalRotation(FRotator(0.0f, horizontalRot * speedRot, 0.0f));
 }
-
-
-
 
 void ACowPlayer::PlaceTurret()
 {
@@ -168,9 +154,7 @@ void ACowPlayer::PlaceTurret()
 	const FCollisionQueryParams traceParams;
 	GetWorld()->LineTraceSingleByChannel(hit, playerLocation, worldDirection, ECC_Visibility, traceParams);
 
-	const FVector turretRaycastDirection; //= FVector(0,0,-100);
-	
-	DrawDebugLine(GetWorld(), playerLocation, worldDirection, FColor::Black, false, 2.f);
+	const FVector turretRaycastDirection;
 
 	FHitResult turretHit;
 	
@@ -195,7 +179,6 @@ void ACowPlayer::PlaceTurret()
 
 		UE_LOG(LogTemp, Warning, TEXT("Objeto seleccionado: %s"), *turretHit.GetActor()->GetName());
 		
-		DrawDebugSphere(GetWorld(),normalTurretInstance->GetActorLocation(), 175.f, 10, FColor::Red, false, 0.1f);
 		break;
 
 	case 1:
@@ -354,7 +337,7 @@ void ACowPlayer::SelectTurret()
 	mouseLocation *= 5000000.f;
 	worldDirection *= 50000000.f;
 	
-	FCollisionQueryParams traceParams;
+	const FCollisionQueryParams traceParams;
 	GetWorld()->LineTraceSingleByChannel(hit, playerLocation, worldDirection, ECC_Visibility, traceParams);
 	
 
@@ -399,6 +382,9 @@ void ACowPlayer::SelectTurret()
 			selectWidgetInstance->targetCowTypeText->SetText(FText::FromString("Plant Cow"));
 			break;
 		}
+
+		DrawDebugSphere(GetWorld(), turretSelected->GetActorLocation(), turretSelected->GetRange(), 64, FColor::Red, false, 3.f, 0, 8.f);
+		
 		FString floatToText = "Attack Power-> " + FString::SanitizeFloat(turretSelected->GetAttackPower());
 		selectWidgetInstance->targetCowAttackText->SetText(FText::FromString(floatToText));
 		

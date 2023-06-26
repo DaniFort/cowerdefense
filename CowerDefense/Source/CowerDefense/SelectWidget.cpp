@@ -198,6 +198,12 @@ void USelectWidget::StoreWidgetAnimations()
 	}
 }
 
+void USelectWidget::GOMenu()
+{
+	
+	//UGameplayStatics
+}
+
 UWidgetAnimation* USelectWidget::GetAnimationByName(FName AnimationName)const
 {
 	UWidgetAnimation* const* widgetAnimation = AnimationMap.Find(AnimationName);
