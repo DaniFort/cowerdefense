@@ -79,10 +79,13 @@ bool AGameStats::SpendMoney(float money)
 void AGameStats::OnKillEnemy()
 {
     totalKills++;
+    float bonus =FMath::RandRange(7, 13);
+    milk += bonus;
     if (ACowGameMode* gameMode = Cast<ACowGameMode>(GetWorld()->GetAuthGameMode()))
     {
         USelectWidget* widget = gameMode->GetPlayer()->selectWidgetInstance;
         widget->SetKillsText(totalKills);
+        widget->SetMilkText(milk);
     }
 }
 
