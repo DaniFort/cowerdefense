@@ -5,6 +5,7 @@
 
 #include "MainMenu.h"
 #include "Camera/CameraComponent.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values
 AMainMenuPawn::AMainMenuPawn()
@@ -19,7 +20,8 @@ AMainMenuPawn::AMainMenuPawn()
 void AMainMenuPawn::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
+	UGameplayStatics::GetPlayerController(GetWorld(),0)->SetShowMouseCursor(true);
 	mainMenuWidgetInstance = CreateWidget<UMainMenu>(GetWorld(), mainMenuWidget);
 	mainMenuWidgetInstance->AddToViewport();
 }

@@ -218,6 +218,7 @@ UWidgetAnimation* USelectWidget::GetAnimationByName(FName AnimationName)const
 }
 void USelectWidget::WinGame()
 {
+	goMenuButton->SetVisibility(ESlateVisibility::Visible);
 	winOrLoseText->SetText(FText::FromString("YOU WIN"));
 	PlayAnimation(winOrLoseAnimation);
 }

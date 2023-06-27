@@ -10,6 +10,7 @@ void UMainMenu::NativeConstruct()
 	Super::NativeConstruct();
 	
 	playButton->OnClicked.AddDynamic(this, &UMainMenu::OnButtonClickPlay);
+	exitButton->OnClicked.AddDynamic(this, &UMainMenu::OnButtonClickExit);
 }
 
 void UMainMenu::OnButtonClickPlay()
@@ -18,4 +19,9 @@ void UMainMenu::OnButtonClickPlay()
 	const FLatentActionInfo latentInfo;
 	//UGameplayStatics::LoadStreamLevel(this, levelToLoad, true, true, latentInfo);
 	UGameplayStatics::OpenLevel(this, levelToLoad);
+}
+
+void UMainMenu::OnButtonClickExit()
+{
+	UKismetSystemLibrary::QuitGame(this, UGameplayStatics::GetPlayerController(GetWorld(),0), EQuitPreference::Quit, true);
 }

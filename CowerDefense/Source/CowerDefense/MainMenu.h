@@ -17,6 +17,9 @@ public:
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
 		UButton* playButton = nullptr;
 
+	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
+	UButton* exitButton = nullptr;
+
 	UPROPERTY(EditDefaultsOnly)
 	FName levelToLoad;
 	
@@ -24,5 +27,8 @@ public:
 
 	UFUNCTION()
 	void OnButtonClickPlay();
+
+	UFUNCTION()
+	void OnButtonClickExit();
 
 };

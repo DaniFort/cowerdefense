@@ -34,7 +34,7 @@ void APoolerObjects::BeginPlay()
 {
 	Super::BeginPlay();
 
-	FVector startPos(0, 0, 0);
+	FVector startPos(0, 0, 30000.f);
     FActorSpawnParameters SpawnInfo;
     FRotator myRot(0, 0, 0);
 
@@ -49,14 +49,16 @@ void APoolerObjects::BeginPlay()
             if (!currentClass->IsChildOf(ACharacter::StaticClass()))
             {
                 newActor = GetWorld()->SpawnActor<AActor>(currentClass);
+                newActor->SetActorLocation(startPos);
             }
             else
             {
                 FActorSpawnParameters SpawnParams;
                 SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
                 newActor = GetWorld()->SpawnActor<AActor>(currentClass,SpawnParams);
+                newActor->SetActorLocation(startPos);
             }
-
+        
 
             group.objectsToPool.Add(newActor);
             DespawnActor(newActor);
@@ -65,8 +67,6 @@ void APoolerObjects::BeginPlay()
     }
     
 }
-
-
 
 AActor* APoolerObjects::SpawnActor(UClass* actorType, FVector Position, FRotator Rotation)
 {
